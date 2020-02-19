@@ -3,6 +3,7 @@ import React from 'react';
 import Button from "./components/Button/Button";
 import styles from './App.module.scss'
 function App() {
+
   return (
       <section className={styles.sorting}>
         <h2>Sort movies</h2>
