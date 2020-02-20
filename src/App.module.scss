@@ -9,3 +9,18 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+.button_container {
+  margin-bottom: 25px;
+}
+
+.movie_preview_container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 50%;
+}
+
+.movies {
+  display: flex;
+}

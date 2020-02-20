@@ -7,4 +7,11 @@
   border-radius: 5px;
   cursor: pointer;
   background: none;
+  font-size: 18px;
+  &:hover {
+    box-shadow: 0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #42ff6a,
+    0 0 35px #42ff6a
+  }
 }
