@@ -45,23 +45,11 @@ export default class App extends Component{
             {this.state.data
             &&
                 <>
-            <MoviePreview
-            title={this.state.data.movies[0].title}
-            poster={this.state.data.movies[0].posterUrl}
-            likes={this.state.data.movies[0].likes}
-            stars={this.state.data.movies[0].stars}
-            />
-            <MoviePreview
+                <MoviePreview
             title={this.state.data.movies[1].title}
-            poster={this.state.data.movies[0].posterUrl}
+            poster={this.state.data.movies[1].posterUrl}
             likes={this.state.data.movies[1].likes}
             stars={this.state.data.movies[1].stars}
-            />
-                <MoviePreview
-            title={this.state.data.movies[2].title}
-            poster={this.state.data.movies[0].posterUrl}
-            likes={this.state.data.movies[2].likes}
-            stars={this.state.data.movies[2].stars}
             />
             </>
             }
