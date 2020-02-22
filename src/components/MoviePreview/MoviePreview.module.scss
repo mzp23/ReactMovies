@@ -19,4 +19,11 @@
 
 .movie_preview_poster {
   max-width: 250px;
+  min-height: 395px;
+}
+
+.post_reaction {
+  margin: 4px;
+  cursor: pointer;
+  user-select: none;
 }

@@ -4,7 +4,7 @@ const MovieFullView = () => {
     return (
         <section className={styles.movie_full_view}>
             <h3 className={styles.movie_full_view_title}>
-                There is no film to show info, choose some film to see details
+                Click on the film title to show full description
             </h3>
         </section>
     );
