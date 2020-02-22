@@ -1,13 +1,17 @@
 import uuid from "uuid";
 import React from "react";
+import './stars.scss';
 
-export const starsRender = (stars) => {
+const StarsRender = ({stars, handleStar, movieId}) => {
    return (<div>{
         [...new Array(5)].map((elem, index) => {
-        const goldStar = <span className="stars" key={uuid()} role="img" aria-label="gold star" >&#11088;</span>;
-        const emptyStar = <span className="stars" key={uuid()} role="img" aria-label="empty star">&#x2606;</span>;
+            const star = index + 1;
+        const goldStar = <span className="stars" onClick={() => handleStar(movieId, star )} key={uuid()} role="img" aria-label="gold star" >&#11088;</span>;
+        const emptyStar = <span className="stars" onClick={() => handleStar(movieId, star)} key={uuid()} role="img" aria-label="empty star">&#x2606;</span>;
 
-        return elem = index + 1 <= stars ? goldStar : emptyStar;
+        return elem = star <= stars ? goldStar : emptyStar;
     })}
     </div>)
 };
+
+export default StarsRender;

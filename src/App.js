@@ -4,7 +4,9 @@ import styles from './App.module.scss'
 import SearchBar from "./components/SearchBar/SearchBar";
 import MoviePreview from "./components/MoviePreview/MoviePreview";
 import MovieFullView from "./components/MovieFullVIew/MovieFullView";
+
 import uuid from 'uuid';
+import {findMovieIndex, updateElement} from "./helpers/helpers";
 
 export default class App extends Component{
 
@@ -15,6 +17,7 @@ export default class App extends Component{
             moviesToRender: null,
             sortedByLikes: false,
             sortedByStars: false,
+            searchBarInput: '',
         };
         this.getData();
     }
@@ -62,9 +65,9 @@ export default class App extends Component{
     };
 
     resetFilters = () => {
-        const isSordetByLikes = this.state.sortedByLikes;
-        const isSordetByStars = this.state.sortedByStars;
-        if(isSordetByLikes || isSordetByStars) {
+        const isSortedByLikes = this.state.sortedByLikes;
+        const isSortedByStars = this.state.sortedByStars;
+        if(isSortedByLikes || isSortedByStars) {
         this.setState({
             ...this.state,
             moviesToRender: this.state.defaultMovies,
@@ -73,6 +76,45 @@ export default class App extends Component{
         })
         }
     };
+
+    handleStar = (movieId, stars) => {
+        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.state);
+
+         this.setState({
+           ...this.state,
+           sortedByStars: false,
+           moviesToRender: updateElement(this.state.moviesToRender, moviesToRenderIndex, {stars}),
+           defaultMovies: updateElement(this.state.defaultMovies, defaultMoviesIndex, {stars}),
+       })
+    };
+
+    handleLike = (movieId, likes) => {
+        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.state);
+
+         this.setState({
+           ...this.state,
+           sortedByLikes: false,
+           moviesToRender: updateElement(this.state.moviesToRender, moviesToRenderIndex, {likes}),
+           defaultMovies: updateElement(this.state.defaultMovies,defaultMoviesIndex, {likes}),
+       })
+    };
+
+    handleSearch = (e) => {
+        this.setState({...this.state,searchBarInput: e.target.value})
+    };
+
+    handleSearchRequest = (e) => {
+        const string = this.state.searchBarInput.split(" ").filter(el => el).join(" ");
+        const regExp = new RegExp(string, 'i');
+        const filteredMovies = this.state.defaultMovies.filter(el => el.title.match(regExp));
+        const moviesToRender = this.state.searchBarInput.trim() ? filteredMovies : this.state.defaultMovies;
+        this.setState({
+            ...this.state,
+            moviesToRender,
+            searchBarInput: ''
+        })
+};
+
 
     render() {
         console.log(this.state);
@@ -85,19 +127,22 @@ export default class App extends Component{
         <Button title="by rating" handleClick={this.sortMoviesByStars}/>
         <Button title="reset" handleClick={this.resetFilters}/>
         </div>
-        <SearchBar/>
+        <SearchBar handleSearch={this.handleSearch} handleSearchRequest={this.handleSearchRequest} value={this.state.searchBarInput}/>
         </section>
             <div className={styles.movies}>
         <section className={styles.movie_preview_container}>
             {this.state.moviesToRender
             &&
-            this.state.moviesToRender.map(el => el =
+            this.state.moviesToRender.map(el=> el =
                 <MoviePreview
                 key={uuid()}
                 stars={el.stars}
                 likes={el.likes}
                 title={el.title}
                 poster={el.posterUrl}
+                handleStar={this.handleStar}
+                handleLike={this.handleLike}
+                movieId={el.id}
                 />)
             }
 
