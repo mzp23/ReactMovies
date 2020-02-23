@@ -18,6 +18,7 @@ export default class App extends Component{
             sortedByLikes: false,
             sortedByStars: false,
             searchBarInput: '',
+            movieToShowDescription: null,
         };
         this.getData();
     }
@@ -100,7 +101,7 @@ export default class App extends Component{
     };
 
     handleSearch = (e) => {
-        this.setState({...this.state,searchBarInput: e.target.value})
+        this.setState({...this.state,searchBarInput: e.target.value});
     };
 
     handleSearchRequest = (e) => {
@@ -113,8 +114,12 @@ export default class App extends Component{
             moviesToRender,
             searchBarInput: ''
         })
-};
+    };
 
+    handleTitle = (movieId) => {
+        const [moviesToRenderIndex] = findMovieIndex(movieId, this.state);
+        this.setState({...this.state, movieToShowDescription: moviesToRenderIndex})
+    };
 
     render() {
         console.log(this.state);
@@ -142,12 +147,19 @@ export default class App extends Component{
                 poster={el.posterUrl}
                 handleStar={this.handleStar}
                 handleLike={this.handleLike}
+                handleTitle={this.handleTitle}
                 movieId={el.id}
                 />)
             }
 
         </section>
-                <MovieFullView/>
+                {this.state.moviesToRender
+                &&
+                <MovieFullView
+                    movie={this.state.moviesToRender[this.state.movieToShowDescription]}
+                    handleStar={this.handleStar}
+                    handleLike={this.handleLike}
+                />}
             </div>
         </>)
 };
