@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from './MovieFullView.module.scss';
-import MoviesFullViewRender from '../MoviesFullViewRender/MoviesFullViewRender';
+import styles from './style.module.scss';
+import MoviesFullDescription from '../MoviesFullDescription/container';
 
 const MovieFullView = ({movie, handleLike, handleStar}) => {
     return (
         <section className={styles.movie_full_view}>
             {
                 movie ?
-                   <MoviesFullViewRender movie={movie} handleLike={handleLike} handleStar={handleStar} />
+                   <MoviesFullDescription movie={movie} handleLike={handleLike} handleStar={handleStar} />
                     :
                     <h3 className={styles.movie_full_view_title}>
                     Click on the film title to show full description

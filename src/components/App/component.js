@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import Button from "./components/Button/Button";
-import styles from './App.module.scss'
-import SearchBar from "./components/SearchBar/SearchBar";
-import MoviePreview from "./components/MoviePreview/MoviePreview";
-import MovieFullView from "./components/MovieFullVIew/MovieFullView";
-
+import styles from './styles.module.scss'
 import uuid from 'uuid';
-import {findMovieIndex, updateElement} from "./helpers/helpers";
+import {findMovieIndex, updateElement} from "../../helpers/helpers";
+import Button from "../../containers/Button/container";
+import SearchBar from "../../containers/SearchBar/container";
+import MoviePreview from "../../containers/MoviePreview/container";
+import MovieFullView from "../../containers/MovieFullView/container";
 
 export default class App extends Component{
 
@@ -22,6 +21,11 @@ export default class App extends Component{
         };
         this.getData();
     }
+
+    shouldComponentUpdate = (nextProps, nextState) => {
+        console.log(nextProps,nextState);
+        return true;
+    };
 
     getData() {
         fetch('./moviesData.json',
