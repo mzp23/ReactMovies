@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import styles from './styles.module.scss'
 import uuid from 'uuid';
 import {findMovieIndex, updateElement, sortArr} from "../../helpers/helpers";
-import Button from "../../components/Button/component";
-import SearchBar from "../../components/SearchBar/component";
+import Button from "../../components/Button/component"
 import MoviePreview from "../../components/MoviePreview/component";
 import MovieFullView from "../../components/MovieFullView/component";
+import SearchBar from "../SearchBar/container";
 
 export default class App extends Component{
 
@@ -14,7 +14,7 @@ export default class App extends Component{
             moviesToRender: null,
             sortedByLikes: false,
             sortedByStars: false,
-            searchBarInput: '',
+            searchBarInput: [],
             movieToShowDescription: null,
         };
 
@@ -77,7 +77,6 @@ export default class App extends Component{
         const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.state);
 
          this.setState({
-           sortedByStars: false,
            moviesToRender: updateElement(this.state.moviesToRender, moviesToRenderIndex, {stars}),
            defaultMovies: updateElement(this.state.defaultMovies, defaultMoviesIndex, {stars}),
        })
@@ -87,14 +86,13 @@ export default class App extends Component{
         const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.state);
 
          this.setState({
-           sortedByLikes: false,
            moviesToRender: updateElement(this.state.moviesToRender, moviesToRenderIndex, {likes}),
            defaultMovies: updateElement(this.state.defaultMovies,defaultMoviesIndex, {likes}),
        })
     };
 
-    handleSearch = (e) => {
-        this.setState({searchBarInput: e.target.value});
+    handleSearchResult = (searchResult) => {
+        this.setState({moviesToRender: searchResult});
     };
 
     handleSearchRequest = (e) => {
@@ -124,7 +122,7 @@ export default class App extends Component{
         <Button title="by rating" handleClick={this.sortMoviesByStars}/>
         <Button title="reset" handleClick={this.resetFilters}/>
         </div>
-        <SearchBar handleSearch={this.handleSearch} handleSearchRequest={this.handleSearchRequest} value={this.state.searchBarInput}/>
+        <SearchBar handleSearchResult={this.handleSearchResult} movies={this.state.defaultMovies}/>
         </section>
             <div className={styles.movies}>
         <section className={styles.movie_preview_container}>
