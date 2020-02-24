@@ -1,31 +1,25 @@
 import React, {Component} from 'react';
 import styles from './styles.module.scss'
-import uuid from 'uuid';
-import {findMovieIndex, updateElement, sortArr} from "../../helpers/helpers";
+import {findMovieIndex, updateElement} from "../../helpers/helpers";
 import Button from "../../components/Button/component"
-import MoviePreview from "../../components/MoviePreview/component";
 import MovieFullView from "../../components/MovieFullView/component";
 import SearchBar from "../SearchBar/container";
+import MoviePreviewContainer from "../MoviePreview/container";
 
 export default class App extends Component{
 
      state = {
             defaultMovies: null,
             moviesToRender: null,
-            sortedByLikes: false,
-            sortedByStars: false,
-            searchBarInput: [],
+            sortedByLikes: true,
+            sortedByStars: true,
+            resetSort: false,
             movieToShowDescription: null,
         };
 
     componentDidMount() {
         this.getData();
     }
-
-    shouldComponentUpdate = (nextProps, nextState) => {
-        console.log(nextProps,nextState);
-        return true;
-    };
 
     getData() {
         fetch('./moviesData.json',
@@ -46,31 +40,33 @@ export default class App extends Component{
     };
 
     sortMoviesByLikes = () => {
-            const sortedArr = [...this.state.moviesToRender]
-                .sort((a,b) => sortArr(a.likes,b.likes, this.state.sortedByLikes));
             this.setState((prevState) =>({
-                moviesToRender: sortedArr,
                 sortedByLikes: !prevState.sortedByLikes,
             }))
     };
 
+    handleSortMoviesByLikes = (moviesToRender) => {
+        this.setState({moviesToRender})
+    };
+
     sortMoviesByStars = () => {
-        const sortedArr = [...this.state.moviesToRender]
-            .sort((a, b) => sortArr(a.stars, b.stars, this.state.sortedByStars));
             this.setState((prevState) => ({
-                moviesToRender: sortedArr,
                 sortedByStars: !prevState.sortedByStars,
             }))
     };
 
-    resetFilters = () => {
-        const sortedArr = [...this.state.moviesToRender].sort((a,b) => a.id - b.id);
-        this.setState({
-            moviesToRender: sortedArr,
-            sortedByLikes: false,
-            sortedByStars: false,
-        })
+    handleSortMoviesByStars = (moviesToRender) => {
+        this.setState({moviesToRender})
+    };
 
+    resetFilters = () => {
+        this.setState({
+            resetSort: true,
+        });
+    };
+
+    handleResetFilters = (state) => {
+        this.setState({...state})
     };
 
     handleStar = (movieId, stars) => {
@@ -95,17 +91,6 @@ export default class App extends Component{
         this.setState({moviesToRender: searchResult});
     };
 
-    handleSearchRequest = (e) => {
-        const string = this.state.searchBarInput.split(" ").filter(el => el).join(" ");
-        const regExp = new RegExp(string, 'i');
-        const filteredMovies = this.state.defaultMovies.filter(el => el.title.match(regExp));
-        const moviesToRender = this.state.searchBarInput.trim() ? filteredMovies : this.state.defaultMovies;
-        this.setState({
-            moviesToRender,
-            searchBarInput: ''
-        })
-    };
-
     handleTitle = (movieId) => {
         const [moviesToRenderIndex] = findMovieIndex(movieId, this.state);
         this.setState({movieToShowDescription: moviesToRenderIndex})
@@ -116,41 +101,40 @@ export default class App extends Component{
         return(
         <>
         <section className={styles.sorting}>
-        <h2>Sort movies</h2>
-        <div className={styles.button_container}>
-        <Button title="by likes" handleClick={this.sortMoviesByLikes}/>
-        <Button title="by rating" handleClick={this.sortMoviesByStars}/>
-        <Button title="reset" handleClick={this.resetFilters}/>
-        </div>
-        <SearchBar handleSearchResult={this.handleSearchResult} movies={this.state.defaultMovies}/>
-        </section>
-            <div className={styles.movies}>
-        <section className={styles.movie_preview_container}>
-            {this.state.moviesToRender
-            &&
-            this.state.moviesToRender.map(el=> el =
-                <MoviePreview
-                key={uuid()}
-                stars={el.stars}
-                likes={el.likes}
-                title={el.title}
-                poster={el.posterUrl}
-                handleStar={this.handleStar}
-                handleLike={this.handleLike}
-                handleTitle={this.handleTitle}
-                movieId={el.id}
-                />)
-            }
-
+            <h2>Sort movies</h2>
+            <div className={styles.button_container}>
+                <Button title="by likes" handleClick={this.sortMoviesByLikes}/>
+                <Button title="by rating" handleClick={this.sortMoviesByStars}/>
+                <Button title="reset" handleClick={this.resetFilters}/>
+           </div>
+           <SearchBar handleSearchResult={this.handleSearchResult} movies={this.state.defaultMovies}/>
         </section>
                 {this.state.moviesToRender
                 &&
+                    <>
+            <div className={styles.movies}>
+        <section className={styles.movie_preview_container}>
+
+                <MoviePreviewContainer
+                    sortedByStars={this.state.sortedByStars}
+                    sortedByLikes={this.state.sortedByLikes}
+                    resetSort={this.state.resetSort}
+                    movies={this.state.moviesToRender}
+                    handleSortMoviesByLikes={this.handleSortMoviesByLikes}
+                    handleSortMoviesByStars={this.handleSortMoviesByStars}
+                    handleResetFilters={this.handleResetFilters}
+                    handleStar={this.handleStar}
+                    handleLike={this.handleLike}
+                    handleTitle={this.handleTitle}
+                />
+        </section>
                 <MovieFullView
                     movie={this.state.moviesToRender[this.state.movieToShowDescription]}
                     handleStar={this.handleStar}
                     handleLike={this.handleLike}
-                />}
+                />
             </div>
+                    </>}
         </>)
 };
 }
