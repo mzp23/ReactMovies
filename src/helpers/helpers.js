@@ -12,3 +12,5 @@ export const updateElement = (array, index, property) => {
         ...array.slice(index + 1)
     ]
 };
+
+export const sortArr = (a, b, isSortedByHighest) => isSortedByHighest ? a - b : b - a;

@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from "./styles.module.scss";
-import Likes from "../Likes/container";
-import Star from "../Stars/container";
-import Span from "../Span/container";
+import Likes from "../Likes/component";
+import Star from "../Stars/component";
+import Span from "../Span/component";
 
 const MoviesFullDescription = ({movie, handleLike, handleStar}) => {
     const {likes, id, title, stars, posterUrl, director, actors, genres, description} = movie;

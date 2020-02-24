@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './style.module.scss';
-import Star from "../Stars/container";
-import Likes from "../Likes/container";
+import Star from "../Stars/component";
+import Likes from "../Likes/component";
 const MoviePreview = ({title, likes, stars, poster, handleStar, handleLike, movieId, handleTitle}) => {
 
     return (

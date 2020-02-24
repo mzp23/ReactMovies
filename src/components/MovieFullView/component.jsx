@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.module.scss';
-import MoviesFullDescription from '../MoviesFullDescription/container';
+import MoviesFullDescription from '../MoviesFullDescription/component';
 
 const MovieFullView = ({movie, handleLike, handleStar}) => {
     return (
