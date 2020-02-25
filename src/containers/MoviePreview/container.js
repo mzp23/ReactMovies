@@ -5,6 +5,10 @@ import uuid from 'uuid';
 
 class MoviePreviewContainer extends Component {
 
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     return nextProps.movie !== this.props.movies;
+    // }
+
     componentDidUpdate(prevProps) {
         if (prevProps.sortedByLikes !== this.props.sortedByLikes) {
             this.sortMoviesByLikes();
@@ -42,7 +46,7 @@ class MoviePreviewContainer extends Component {
     render() {
         return (
             <>
-                {this.props.movies.map((el) =>
+                {this.props.movies && this.props.movies.map((el) =>
                     <MoviePreview
                             key={uuid()}
                             stars={el.stars}

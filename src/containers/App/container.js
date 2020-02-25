@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import styles from './styles.module.scss'
 import {findMovieIndex, updateElement} from "../../helpers/helpers";
 import Button from "../../components/Button/component"
-import MovieFullView from "../../components/MovieFullView/component";
 import SearchBar from "../SearchBar/container";
 import MoviePreviewContainer from "../MoviePreview/container";
+import MovieFullView from "../../components/MovieFullVIew/component";
 
 export default class App extends Component{
 
@@ -109,32 +109,34 @@ export default class App extends Component{
            </div>
            <SearchBar handleSearchResult={this.handleSearchResult} movies={this.state.defaultMovies}/>
         </section>
+            <div className={styles.movies}>
                 {this.state.moviesToRender
                 &&
                     <>
-            <div className={styles.movies}>
-        <section className={styles.movie_preview_container}>
+                <section className={styles.movie_preview_container}>
 
-                <MoviePreviewContainer
-                    sortedByStars={this.state.sortedByStars}
-                    sortedByLikes={this.state.sortedByLikes}
-                    resetSort={this.state.resetSort}
-                    movies={this.state.moviesToRender}
-                    handleSortMoviesByLikes={this.handleSortMoviesByLikes}
-                    handleSortMoviesByStars={this.handleSortMoviesByStars}
-                    handleResetFilters={this.handleResetFilters}
-                    handleStar={this.handleStar}
-                    handleLike={this.handleLike}
-                    handleTitle={this.handleTitle}
-                />
-        </section>
+                    <MoviePreviewContainer
+                        sortedByStars={this.state.sortedByStars}
+                        sortedByLikes={this.state.sortedByLikes}
+                        resetSort={this.state.resetSort}
+                        movies={this.state.moviesToRender}
+                        handleSortMoviesByLikes={this.handleSortMoviesByLikes}
+                        handleSortMoviesByStars={this.handleSortMoviesByStars}
+                        handleResetFilters={this.handleResetFilters}
+                        handleStar={this.handleStar}
+                        handleLike={this.handleLike}
+                        handleTitle={this.handleTitle}
+                    />
+                </section>
+
                 <MovieFullView
                     movie={this.state.moviesToRender[this.state.movieToShowDescription]}
                     handleStar={this.handleStar}
                     handleLike={this.handleLike}
                 />
+                </>
+                }
             </div>
-                    </>}
         </>)
 };
 }
