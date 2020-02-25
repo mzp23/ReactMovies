@@ -1,9 +1,9 @@
-.movie_preview_card {
+.movie {
   max-width: 250px;
   margin-right: 50px;
 }
 
-.movie_preview_title {
+.title {
   text-align: center;
   cursor: pointer;
   word-wrap: break-word;
@@ -17,7 +17,7 @@
   }
 }
 
-.movie_preview_poster {
+.poster {
   max-width: 250px;
   min-height: 395px;
 }
