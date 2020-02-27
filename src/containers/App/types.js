@@ -1,1 +1,9 @@
 export const LOAD_MOVIES = 'LOAD_MOVIES';
+export const TOGGLE_SORT_BY_STARS = 'TOGGLE_SORT_BY_STARS';
+export const TOGGLE_SORT_BY_LIKES = 'TOGGLE_SORT_BY_LIKES';
+export const RESET_SORTING = 'RESET_SORTING';
+export const SORT_BY_STARS = 'SORT_BY_STARS';
+export const HANDLE_STARS = 'HANDLE_STARS';
+export const HANDLE_LIKE = 'HANDLE_LIKE';
+export const HANDLE_SEARCH = 'HANDLE_SEARCH';
+export const HANDLE_TITLE = 'HANDLE_TITLE';

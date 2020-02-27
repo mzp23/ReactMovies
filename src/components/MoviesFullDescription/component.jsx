@@ -5,8 +5,7 @@ import Star from "../Stars/component";
 import Span from "../Span/component";
 
 const MoviesFullDescription = ({movie, handleLike, handleStar}) => {
-    const {likes, id, title, stars, posterUrl, director, actors, genres, description} = movie;
-
+    const {likes, id, title, stars, posterUrl, director, actors, genres, description} = movie;;
     return (
         <>
             <div className={styles.sub_info}>

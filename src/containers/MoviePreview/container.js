@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import MoviePreview from "../../components/MoviePreview/component";
-import {sortArr} from "../../helpers/helpers";
 import uuid from 'uuid';
+import {sortByStars, toggleSortByLikes, toggleSortByLStars} from '../App/actions';
 
 class MoviePreviewContainer extends Component {
 
@@ -24,38 +25,43 @@ class MoviePreviewContainer extends Component {
     }
 
     sortMoviesByLikes = () => {
-        const moviesToRender = [...this.props.movies]
-            .sort((a,b) => sortArr(a.likes,b.likes, this.props.sortedByLikes));
-         this.props.handleSortMoviesByLikes(moviesToRender);
+        // const {movies, handleSortMoviesByLikes, sortedByLikes} = this.props;
+        // const moviesToRender = [...movies].sort((a,b) => sortArr(a.likes,b.likes, sortedByLikes));
+        //  handleSortMoviesByLikes(moviesToRender);
+        // console.log(this.props, 444444);
     };
 
     sortMoviesByStars = () => {
-        const moviesToRender = [...this.props.movies]
-            .sort((a, b) => sortArr(a.stars, b.stars, this.props.sortedByStars));
-        this.props.handleSortMoviesByStars(moviesToRender)
+        const {moviesToRender, sortedByStars} = this.props;
+        // console.log(sortedByStars);
+
+        // this.props.sortByStars({moviesToRender: movies });
+        // handleSortMoviesByStars(moviesToRender)
     };
 
     resetFilters = () => {
-        const sortedArr = [...this.props.movies].sort((a,b) => a.id - b.id);
-        this.props.handleResetFilters({
+        const {movies, handleResetFilters} = this.props;
+        const sortedArr = [...movies].sort((a,b) => a.id - b.id);
+        handleResetFilters({
             moviesToRender: sortedArr,
             resetSort: false
         })
     };
 
     render() {
+        const {handleStar, handleLike, handleTitle,moviesToRender} = this.props;
         return (
             <>
-                {this.props.movies && this.props.movies.map((el) =>
+                {moviesToRender && moviesToRender.map((el) =>
                     <MoviePreview
                             key={uuid()}
                             stars={el.stars}
                             likes={el.likes}
                             title={el.title}
                             poster={el.posterUrl}
-                            handleStar={this.props.handleStar}
-                            handleLike={this.props.handleLike}
-                            handleTitle={this.props.handleTitle}
+                            handleStar={handleStar}
+                            handleLike={handleLike}
+                            handleTitle={handleTitle}
                             movieId={el.id}
                     />)}
             </>
@@ -63,4 +69,20 @@ class MoviePreviewContainer extends Component {
     }
 }
 
-export default MoviePreviewContainer;
+const mapStateToProps = ({appReducer}) => ({
+    moviesToRender: appReducer.moviesToRender,
+    sortedByLikes: appReducer.sortedByLikes,
+    sortedByStars: appReducer.sortedByStars,
+    resetSort: appReducer.resetSort,
+});
+
+const mapDispatchToProps = () => ({
+
+});
+
+const withConnect = connect(
+    mapStateToProps,
+    mapDispatchToProps
+);
+
+export default withConnect(MoviePreviewContainer);
