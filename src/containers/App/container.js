@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss'
 import {findMovieIndex, sortArr, updateElement} from "../../helpers/helpers";
 import Button from "../../components/Button/component"
 import SearchBar from "../SearchBar/container";
 import MoviePreviewContainer from "../MoviePreview/container";
-import MovieFullView from "../../components/MovieFullVIew/component";
+import MovieFullView from "../../components/MovieFullView/component";
 import {loadMovies,resetSorting, toggleSortByLikes, toggleSortByLStars,
         handleLike, handleStars, handleSearch, handleTitleToProps} from "./actions";
 
@@ -64,9 +65,10 @@ class App extends Component{
     };
 
     handleStar = (movieId, stars) => {
+        const {handleStars} = this.props;
         const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.props);
 
-        this.props.handleStars({
+        handleStars({
             moviesToRender: updateElement(this.props.moviesToRender, moviesToRenderIndex, {stars}),
             defaultMovies: updateElement(this.props.defaultMovies,defaultMoviesIndex, {stars}),
         });
@@ -87,29 +89,31 @@ class App extends Component{
     };
 
     handleTitle = (movieId) => {
+        const {handleTitleToProps} = this.props;
         const [moviesToRenderIndex] = findMovieIndex(movieId, this.props);
-        this.props.handleTitleToProps
+         handleTitleToProps
         ({movieToShowDescription: moviesToRenderIndex})
     };
 
     render() {
-        console.log(this.props);
+        const {defaultMovies, movieToShowDescription, moviesToRender} = this.props;
+        const {isLoaded} = this.state;
         return(
         <>
         <section className={styles.sorting}>
             <h2>Sort movies</h2>
-            <div className={styles.button_container}>
+            <div className={styles.buttonContainer}>
                 <Button title="by likes" handleClick={this.sortMoviesByLikes}/>
                 <Button title="by rating" handleClick={this.sortMoviesByStars}/>
                 <Button title="reset" handleClick={this.resetFilters}/>
            </div>
-           <SearchBar handleSearchResult={this.handleSearchResult} movies={this.props.defaultMovies}/>
+           <SearchBar handleSearchResult={this.handleSearchResult} movies={defaultMovies}/>
         </section>
             <div className={styles.movies}>
-                {this.state.isLoaded
+                {isLoaded
                 &&
                     <>
-                <section className={styles.movie_preview_container}>
+                <section className={styles.moviePreviewContainer}>
 
                     <MoviePreviewContainer
                         handleStar={this.handleStar}
@@ -118,7 +122,7 @@ class App extends Component{
                     />
                 </section>
                 <MovieFullView
-                    movie={this.props.moviesToRender[this.props.movieToShowDescription]}
+                    movie={moviesToRender[movieToShowDescription]}
                     handleStar={this.handleStar}
                     handleLike={this.handleLike}
                 />
@@ -154,3 +158,15 @@ const withConnect = connect(
 );
 
 export default withConnect(App);
+
+App.propTypes = {
+    defaultMovies: PropTypes.arrayOf(PropTypes.object),
+    moviesToRender: PropTypes.arrayOf(PropTypes.object),
+    toggleSortByLikes: PropTypes.func,
+    toggleSortByLStars: PropTypes.func,
+    resetSorting: PropTypes.func,
+    handleLike: PropTypes.func,
+    handleStars: PropTypes.func,
+    handleSearch: PropTypes.func,
+    handleTitleToProps: PropTypes.func,
+};

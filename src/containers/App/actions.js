@@ -2,7 +2,7 @@ import {
   HANDLE_LIKE, HANDLE_SEARCH,
   HANDLE_STARS, HANDLE_TITLE,
   LOAD_MOVIES,
-  RESET_SORTING, SORT_BY_STARS,
+  RESET_SORTING,
   TOGGLE_SORT_BY_LIKES,
   TOGGLE_SORT_BY_STARS
 } from './types';
@@ -27,10 +27,6 @@ export const resetSorting = (payload) => ({
   payload
 });
 
-export const sortByStars = (payload) => ({
-  type: SORT_BY_STARS,
-  payload
-});
 
 export const handleStars = (payload) => ({
   type: HANDLE_STARS,

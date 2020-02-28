@@ -14,6 +14,7 @@ const initialState = {
     sortedByLikes: false,
     sortedByStars: false,
     resetSort: false,
+    isLoaded: false,
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -26,6 +27,7 @@ export const appReducer = (state = initialState, action) => {
         case LOAD_MOVIES :
             return {
                 ...state,
+                isLoaded: true,
                 defaultMovies: payload.defaultMovies,
                 moviesToRender: payload.moviesToRender
             };
