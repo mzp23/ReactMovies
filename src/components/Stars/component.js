@@ -1,39 +1,27 @@
-import uuid from "uuid";
 import React from "react";
-import styles from "./style.module.scss";
+import FilledStar from "../FilledStar/componetn";
+import EmptyStar from "../EmptyStar/componetn";
+import uuid from 'uuid';
+import PropTypes from "prop-types";
 
 const StarsRender = ({ stars, handleStar, movieId }) => {
   return (
     <div>
       {[...new Array(5)].map((elem, index) => {
         const star = index + 1;
-        const goldStar = (
-          <span
-            className={styles.stars}
-            onClick={() => handleStar(movieId, star)}
-            key={uuid()}
-            role="img"
-            aria-label="gold star"
-          >
-            &#11088;
-          </span>
-        );
-        const emptyStar = (
-          <span
-            className={styles.stars}
-            onClick={() => handleStar(movieId, star)}
-            key={uuid()}
-            role="img"
-            aria-label="empty star"
-          >
-            &#x2606;
-          </span>
-        );
-
-        return (star <= stars ? goldStar : emptyStar);
+             return (star <= stars ?
+                 <FilledStar key={uuid()}  handleStar={handleStar} movieId={movieId} star={star}/>
+                 :
+                 <EmptyStar key={uuid()}  handleStar={handleStar} movieId={movieId} star={star} />);
       })}
     </div>
   );
 };
 
 export default StarsRender;
+
+StarsRender.propTypes = {
+  handleStar: PropTypes.func,
+  movieId: PropTypes.number,
+  stars: PropTypes.number,
+};

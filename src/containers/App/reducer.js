@@ -17,7 +17,7 @@ const initialState = {
     isLoaded: false,
 };
 
-export const appReducer = (state = initialState, action) => {
+export const moviesReducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {

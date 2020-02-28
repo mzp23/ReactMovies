@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./style.module.scss";
 import PropTypes from "prop-types";
+import {movieShape} from "../../helpers/propTypeShapes";
 
 export default class SearchBar extends Component {
   state = {
@@ -50,6 +51,6 @@ export default class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-  movies: PropTypes.arrayOf(PropTypes.object),
+  movies: PropTypes.arrayOf(movieShape),
   handleSearchResult: PropTypes.func
 };

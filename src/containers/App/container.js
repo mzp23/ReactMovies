@@ -9,6 +9,7 @@ import MoviePreviewContainer from "../MoviePreview/container";
 import MovieFullView from "../../components/MovieFullView/component";
 import {loadMovies,resetSorting, toggleSortByLikes, toggleSortByLStars,
         handleLike, handleStars, handleSearch, handleTitleToProps} from "./actions";
+import {movieShape} from "../../helpers/propTypeShapes";
 
 class App extends Component{
 
@@ -160,8 +161,8 @@ const withConnect = connect(
 export default withConnect(App);
 
 App.propTypes = {
-    defaultMovies: PropTypes.arrayOf(PropTypes.object),
-    moviesToRender: PropTypes.arrayOf(PropTypes.object),
+    defaultMovies: PropTypes.arrayOf(movieShape),
+    moviesToRender: PropTypes.arrayOf(movieShape),
     toggleSortByLikes: PropTypes.func,
     toggleSortByLStars: PropTypes.func,
     resetSorting: PropTypes.func,
