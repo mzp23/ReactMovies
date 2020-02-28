@@ -1,20 +1,19 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styles from './styles.module.scss'
-import {findMovieIndex, updateElement} from "../../helpers/helpers";
+import {findMovieIndex, sortArr, updateElement} from "../../helpers/helpers";
 import Button from "../../components/Button/component"
-import MovieFullView from "../../components/MovieFullView/component";
 import SearchBar from "../SearchBar/container";
 import MoviePreviewContainer from "../MoviePreview/container";
+import MovieFullView from "../../components/MovieFullView/component";
+import {loadMovies,resetSorting, toggleSortByLikes, toggleSortByLStars,
+        handleLike, handleStars, handleSearch, handleTitleToProps} from "./actions";
 
-export default class App extends Component{
+class App extends Component{
 
      state = {
-            defaultMovies: null,
-            moviesToRender: null,
-            sortedByLikes: true,
-            sortedByStars: true,
-            resetSort: false,
-            movieToShowDescription: null,
+            isLoaded: false,
         };
 
     componentDidMount() {
@@ -22,119 +21,152 @@ export default class App extends Component{
     }
 
     getData() {
+        const {loadMovies} = this.props;
         fetch('./moviesData.json',
             {
                 headers : {
-                    'Content-Type': 'application/json',
+                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
             }
             )
             .then(res => res.json())
             .then(res => {
-                this.setState({
+                loadMovies({
                     moviesToRender: res.movies,
                     defaultMovies: res.movies
                 });
+                this.setState({isLoaded: true});
             });
     };
 
     sortMoviesByLikes = () => {
-            this.setState((prevState) =>({
-                sortedByLikes: !prevState.sortedByLikes,
-            }))
-    };
-
-    handleSortMoviesByLikes = (moviesToRender) => {
-        this.setState({moviesToRender})
+        const {moviesToRender, sortedByLikes} = this.props;
+        const movies = [...moviesToRender].sort((a, b) => sortArr(a.likes, b.likes, sortedByLikes));
+        this.props.toggleSortByLikes({
+            sortedByLikes: !sortedByLikes,
+            moviesToRender:movies});
     };
 
     sortMoviesByStars = () => {
-            this.setState((prevState) => ({
-                sortedByStars: !prevState.sortedByStars,
-            }))
+        const {moviesToRender, sortedByStars} = this.props;
+        const movies = [...moviesToRender].sort((a, b) => sortArr(a.stars, b.stars, sortedByStars));
+        this.props.toggleSortByLStars({
+            sortedByStars: !sortedByStars,
+            moviesToRender:movies});
     };
 
-    handleSortMoviesByStars = (moviesToRender) => {
-        this.setState({moviesToRender})
-    };
 
     resetFilters = () => {
-        this.setState({
-            resetSort: true,
-        });
-    };
-
-    handleResetFilters = (state) => {
-        this.setState({...state})
+        const {moviesToRender} = this.props;
+        const movies = [...moviesToRender].sort((a, b) => a.id - b.id);
+      this.props.resetSorting({
+          moviesToRender:movies});
     };
 
     handleStar = (movieId, stars) => {
-        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.state);
+        const {handleStars} = this.props;
+        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.props);
 
-         this.setState({
-           moviesToRender: updateElement(this.state.moviesToRender, moviesToRenderIndex, {stars}),
-           defaultMovies: updateElement(this.state.defaultMovies, defaultMoviesIndex, {stars}),
-       })
+        handleStars({
+            moviesToRender: updateElement(this.props.moviesToRender, moviesToRenderIndex, {stars}),
+            defaultMovies: updateElement(this.props.defaultMovies,defaultMoviesIndex, {stars}),
+        });
     };
 
     handleLike = (movieId, likes) => {
-        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.state);
 
-         this.setState({
-           moviesToRender: updateElement(this.state.moviesToRender, moviesToRenderIndex, {likes}),
-           defaultMovies: updateElement(this.state.defaultMovies,defaultMoviesIndex, {likes}),
-       })
+        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.props);
+
+        this.props.handleLike({
+            moviesToRender: updateElement(this.props.moviesToRender, moviesToRenderIndex, {likes}),
+            defaultMovies: updateElement(this.props.defaultMovies,defaultMoviesIndex, {likes}),
+        });
     };
 
     handleSearchResult = (searchResult) => {
-        this.setState({moviesToRender: searchResult});
+        this.props.handleSearch({moviesToRender: searchResult});
     };
 
     handleTitle = (movieId) => {
-        const [moviesToRenderIndex] = findMovieIndex(movieId, this.state);
-        this.setState({movieToShowDescription: moviesToRenderIndex})
+        const {handleTitleToProps} = this.props;
+        const [moviesToRenderIndex] = findMovieIndex(movieId, this.props);
+         handleTitleToProps
+        ({movieToShowDescription: moviesToRenderIndex})
     };
 
     render() {
-        console.log(this.state);
+        const {defaultMovies, movieToShowDescription, moviesToRender} = this.props;
+        const {isLoaded} = this.state;
         return(
         <>
         <section className={styles.sorting}>
             <h2>Sort movies</h2>
-            <div className={styles.button_container}>
+            <div className={styles.buttonContainer}>
                 <Button title="by likes" handleClick={this.sortMoviesByLikes}/>
                 <Button title="by rating" handleClick={this.sortMoviesByStars}/>
                 <Button title="reset" handleClick={this.resetFilters}/>
            </div>
-           <SearchBar handleSearchResult={this.handleSearchResult} movies={this.state.defaultMovies}/>
+           <SearchBar handleSearchResult={this.handleSearchResult} movies={defaultMovies}/>
         </section>
-                {this.state.moviesToRender
+            <div className={styles.movies}>
+                {isLoaded
                 &&
                     <>
-            <div className={styles.movies}>
-        <section className={styles.movie_preview_container}>
+                <section className={styles.moviePreviewContainer}>
 
-                <MoviePreviewContainer
-                    sortedByStars={this.state.sortedByStars}
-                    sortedByLikes={this.state.sortedByLikes}
-                    resetSort={this.state.resetSort}
-                    movies={this.state.moviesToRender}
-                    handleSortMoviesByLikes={this.handleSortMoviesByLikes}
-                    handleSortMoviesByStars={this.handleSortMoviesByStars}
-                    handleResetFilters={this.handleResetFilters}
-                    handleStar={this.handleStar}
-                    handleLike={this.handleLike}
-                    handleTitle={this.handleTitle}
-                />
-        </section>
+                    <MoviePreviewContainer
+                        handleStar={this.handleStar}
+                        handleLike={this.handleLike}
+                        handleTitle={this.handleTitle}
+                    />
+                </section>
                 <MovieFullView
-                    movie={this.state.moviesToRender[this.state.movieToShowDescription]}
+                    movie={moviesToRender[movieToShowDescription]}
                     handleStar={this.handleStar}
                     handleLike={this.handleLike}
                 />
+                </>
+                }
             </div>
-                    </>}
         </>)
 };
 }
+
+const mapStateToProps = ({appReducer}) => ({
+    moviesToRender: appReducer.moviesToRender,
+    defaultMovies: appReducer.defaultMovies,
+    sortedByStars: appReducer.sortedByStars,
+    sortedByLikes: appReducer.sortedByLikes,
+    movieToShowDescription: appReducer.movieToShowDescription,
+});
+
+const mapDispatchToProps = {
+    loadMovies,
+    toggleSortByLikes,
+    toggleSortByLStars,
+    resetSorting,
+    handleLike,
+    handleStars,
+    handleSearch,
+    handleTitleToProps
+};
+
+const withConnect = connect(
+    mapStateToProps,
+    mapDispatchToProps
+);
+
+export default withConnect(App);
+
+App.propTypes = {
+    defaultMovies: PropTypes.arrayOf(PropTypes.object),
+    moviesToRender: PropTypes.arrayOf(PropTypes.object),
+    toggleSortByLikes: PropTypes.func,
+    toggleSortByLStars: PropTypes.func,
+    resetSorting: PropTypes.func,
+    handleLike: PropTypes.func,
+    handleStars: PropTypes.func,
+    handleSearch: PropTypes.func,
+    handleTitleToProps: PropTypes.func,
+};
