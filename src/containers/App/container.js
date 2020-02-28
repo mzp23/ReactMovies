@@ -10,6 +10,7 @@ import MovieFullView from "../../components/MovieFullView/component";
 import {loadMovies,resetSorting, toggleSortByLikes, toggleSortByLStars,
         handleLike, handleStars, handleSearch, handleTitleToProps} from "./actions";
 import {movieShape} from "../../helpers/propTypeShapes";
+import Navigation from "../../components/Navigation/component";
 
 class App extends Component{
 
@@ -101,6 +102,7 @@ class App extends Component{
         const {isLoaded} = this.state;
         return(
         <>
+           <Navigation />
         <section className={styles.sorting}>
             <h2>Sort movies</h2>
             <div className={styles.buttonContainer}>
