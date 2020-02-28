@@ -4,6 +4,7 @@ import Likes from "../Likes/component";
 import Star from "../Stars/component";
 import Span from "../Span/component";
 import PropTypes from "prop-types";
+import {movieShape} from "../../helpers/propTypeShapes";
 
 const MoviesFullDescription = ({ movie, handleLike, handleStar }) => {
   const { likes, id, title, stars, posterUrl, director, actors, genres, description } = movie;
@@ -32,7 +33,7 @@ const MoviesFullDescription = ({ movie, handleLike, handleStar }) => {
 export default MoviesFullDescription;
 
 MoviesFullDescription.propType = {
-  movie: PropTypes.object.isRequired,
+  movie: movieShape.isRequired,
   handleLike: PropTypes.func.isRequired,
   handleStar: PropTypes.func.isRequired
 };

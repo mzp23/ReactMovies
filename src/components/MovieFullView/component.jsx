@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./style.module.scss";
 import MoviesFullDescription from "../MoviesFullDescription/component";
+import {movieShape} from "../../helpers/propTypeShapes";
 
 const MovieFullView = ({ movie, handleLike, handleStar }) => {
   return (
@@ -24,7 +25,7 @@ const MovieFullView = ({ movie, handleLike, handleStar }) => {
 export default MovieFullView;
 
 MovieFullView.propTypes = {
-  movie: PropTypes.object,
+  movie: movieShape,
   handleLike: PropTypes.func,
   handleStar: PropTypes.func
 };
