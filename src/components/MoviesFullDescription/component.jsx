@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import Likes from "../Likes/component";
-import Star from "../Stars/component";
+import Stars from "../Stars/component";
 import Span from "../Span/component";
 import PropTypes from "prop-types";
 import {movieShape} from "../../helpers/propTypeShapes";
@@ -13,7 +13,7 @@ const MoviesFullDescription = ({ movie, handleLike, handleStar }) => {
       <div className={styles.subInfo}>
         <h3>{title}</h3>
         <Likes movieId={id} handleLike={handleLike} likes={likes} />
-        <Star movieId={id} stars={stars} handleStar={handleStar} />
+        <Stars movieId={id} stars={stars} handleStar={handleStar} />
       </div>
       <div className={styles.fullInfo}>
         <img src={posterUrl} alt={title} className={styles.poster} />
