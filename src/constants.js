@@ -1,4 +1,5 @@
 export const Routes = {
+  HOMEPAGE: '/',
   LOGIN: '/login',
   REGISTER: '/register',
   MOVIES: '/movies',

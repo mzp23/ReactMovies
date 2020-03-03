@@ -1,7 +1,8 @@
 import {
+  DELETE_MOVIE, EDIT_MOVIE,
   HANDLE_LIKE, HANDLE_SEARCH,
   HANDLE_STARS, HANDLE_TITLE,
-  LOAD_MOVIES,
+  LOAD_MOVIES, LOG_OUT,
   RESET_SORTING,
   TOGGLE_SORT_BY_LIKES,
   TOGGLE_SORT_BY_STARS
@@ -46,5 +47,19 @@ export const handleSearch = (payload) => ({
 export const handleTitleToProps = (payload) => ({
   type: HANDLE_TITLE,
   payload
+});
+
+export const handleDeleteMovie = (payload) => ({
+  type: DELETE_MOVIE,
+  payload
+});
+
+export const handleEditMovie = (payload) => ({
+  type: EDIT_MOVIE,
+  payload
+});
+
+export const handleUserLogOut = () => ({
+  type: LOG_OUT,
 });
 

@@ -7,3 +7,6 @@ export const HANDLE_STARS = 'HANDLE_STARS';
 export const HANDLE_LIKE = 'HANDLE_LIKE';
 export const HANDLE_SEARCH = 'HANDLE_SEARCH';
 export const HANDLE_TITLE = 'HANDLE_TITLE';
+export const DELETE_MOVIE = 'DELETE_MOVIE';
+export const EDIT_MOVIE = 'EDIT_MOVIE';
+export const LOG_OUT = 'LOG_OUT';

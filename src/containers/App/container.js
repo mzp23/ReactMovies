@@ -1,22 +1,24 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styles from './styles.module.scss'
 import {findMovieIndex, sortArr, updateElement} from "../../helpers/helpers";
-import Button from "../../components/Button/component"
-import SearchBar from "../SearchBar/container";
-import MoviePreviewContainer from "../MoviePreview/container";
 import MovieFullView from "../../components/MovieFullView/component";
-import {loadMovies,resetSorting, toggleSortByLikes, toggleSortByLStars,
-        handleLike, handleStars, handleSearch, handleTitleToProps} from "./actions";
+import {
+    loadMovies, resetSorting, toggleSortByLikes, toggleSortByLStars,
+    handleLike, handleStars, handleSearch, handleTitleToProps, handleDeleteMovie,
+    handleEditMovie, handleUserLogOut
+} from "./actions";
 import {movieShape} from "../../helpers/propTypeShapes";
-import Navigation from "../../components/Navigation/component";
-
+import Movies from "../../components/Movies/component";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
+import {Routes} from "../../constants";
+import Login from "../Login/container";
+import Register from "../Register/container";
+import PageNotFound from "../../components/PageNotFound/component";
+import ProtectedRoute from "../../Routes/ProtectedRoute";
+import EditMovieContainer from "../EditMovieContainer/container";
+import ActorContainer from '../ActorContainer/container';
 class App extends Component{
-
-     state = {
-            isLoaded: false,
-        };
 
     componentDidMount() {
         this.getData();
@@ -24,7 +26,7 @@ class App extends Component{
 
     getData() {
         const {loadMovies} = this.props;
-        fetch('./moviesData.json',
+        fetch('http://localhost:3000/moviesData.json',
             {
                 headers : {
                      'Content-Type': 'application/json',
@@ -36,9 +38,9 @@ class App extends Component{
             .then(res => {
                 loadMovies({
                     moviesToRender: res.movies,
-                    defaultMovies: res.movies
+                    defaultMovies: res.movies,
+                    actors: res.actors,
                 });
-                this.setState({isLoaded: true});
             });
     };
 
@@ -91,57 +93,92 @@ class App extends Component{
     };
 
     handleTitle = (movieId) => {
+
         const {handleTitleToProps} = this.props;
         const [moviesToRenderIndex] = findMovieIndex(movieId, this.props);
          handleTitleToProps
-        ({movieToShowDescription: moviesToRenderIndex})
+        ({movieToShowDescription: moviesToRenderIndex});
+        this.props.history.push(`/movies/${movieId}`);
+    };
+
+    handleDelete = (movieId) => {
+        const {history, handleDeleteMovie} = this.props;
+        handleDeleteMovie({
+                moviesToRender: this.props.moviesToRender.filter(item => item.id !== movieId),
+                defaultMovies: this.props.defaultMovies.filter(item => item.id !== movieId),
+            });
+        history.push('/movies');
+    };
+
+    handleEdit = (movieId) => {
+        const {history} = this.props;
+        history.push(`/edit-movie/${movieId}`);
+    };
+
+    handleLogOut = () => {
+        const {history, handleUserLogOut} = this.props;
+        handleUserLogOut();
+        history.push('/login');
+    };
+
+    handleActor = (id) => {
+        const {history} = this.props;
+        history.push(`/actor/${id}`);
     };
 
     render() {
-        const {defaultMovies, movieToShowDescription, moviesToRender} = this.props;
-        const {isLoaded} = this.state;
+        const {defaultMovies, movieToShowDescription, moviesToRender, actors} = this.props;
         return(
         <>
-           <Navigation />
-        <section className={styles.sorting}>
-            <h2>Sort movies</h2>
-            <div className={styles.buttonContainer}>
-                <Button title="by likes" handleClick={this.sortMoviesByLikes}/>
-                <Button title="by rating" handleClick={this.sortMoviesByStars}/>
-                <Button title="reset" handleClick={this.resetFilters}/>
-           </div>
-           <SearchBar handleSearchResult={this.handleSearchResult} movies={defaultMovies}/>
-        </section>
-            <div className={styles.movies}>
-                {isLoaded
-                &&
-                    <>
-                <section className={styles.moviePreviewContainer}>
+             <Switch>
+                <Route exact path={Routes.LOGIN} component={Login} />
+                <Route exact path={Routes.REGISTER} component={Register} />
+                <Route exact path={Routes.EDIT_MOVIE} render={() => <EditMovieContainer {...this.props} handleLogOut={this.handleLogOut} />} />
 
-                    <MoviePreviewContainer
+                <ProtectedRoute exact path={Routes.HOMEPAGE} {...this.props} handleLogOut={this.handleLogOut}><Redirect to={Routes.MOVIES}/></ProtectedRoute>
+                <ProtectedRoute exact path={Routes.MOVIES} {...this.props} handleLogOut={this.handleLogOut} render={() =>
+                    <Movies {...this.props}
+                            handleLike={this.handleLike}
+                            handleStar={this.handleStar}
+                            handleTitle={this.handleTitle}
+                            sortMoviesByLikes={this.sortMoviesByLikes}
+                            sortMoviesByStars={this.sortMoviesByStars}
+                            resetFilters={this.resetFilters}
+                            handleSearchResult={this.handleSearchResult}
+                            handleLogOut={this.handleLogOut}
+
+                    />}
+                />
+                <ProtectedRoute exact path={Routes.MOVIE} {...this.props} render={() =>
+                    <MovieFullView
+                        movies={defaultMovies}
+                        moviesToRender={moviesToRender}
+                        movieIDX={movieToShowDescription}
                         handleStar={this.handleStar}
                         handleLike={this.handleLike}
-                        handleTitle={this.handleTitle}
-                    />
-                </section>
-                <MovieFullView
-                    movie={moviesToRender[movieToShowDescription]}
-                    handleStar={this.handleStar}
-                    handleLike={this.handleLike}
-                />
-                </>
-                }
-            </div>
+                        handleDelete={this.handleDelete}
+                        handleEdit={this.handleEdit}
+                        handleLogOut={this.handleLogOut}
+                        actors={actors}
+                        handleActor={this.handleActor}
+                    />} />
+                <ProtectedRoute exact path={Routes.ACTOR} {...this.props}
+                           render={() => <ActorContainer  {...this.props} handleLogOut={this.handleLogOut}/>} />
+                <ProtectedRoute path={"**"} component={PageNotFound} />
+            </Switch>
         </>)
 };
 }
 
-const mapStateToProps = ({appReducer}) => ({
-    moviesToRender: appReducer.moviesToRender,
-    defaultMovies: appReducer.defaultMovies,
-    sortedByStars: appReducer.sortedByStars,
-    sortedByLikes: appReducer.sortedByLikes,
-    movieToShowDescription: appReducer.movieToShowDescription,
+const mapStateToProps = ({moviesReducer, loginReducer}) => ({
+    moviesToRender: moviesReducer.moviesToRender,
+    defaultMovies: moviesReducer.defaultMovies,
+    sortedByStars: moviesReducer.sortedByStars,
+    sortedByLikes: moviesReducer.sortedByLikes,
+    movieToShowDescription: moviesReducer.movieToShowDescription,
+    actors: moviesReducer.actors,
+    isLoaded: moviesReducer.isLoaded,
+    user: loginReducer.user,
 });
 
 const mapDispatchToProps = {
@@ -152,7 +189,10 @@ const mapDispatchToProps = {
     handleLike,
     handleStars,
     handleSearch,
-    handleTitleToProps
+    handleTitleToProps,
+    handleDeleteMovie,
+    handleEditMovie,
+    handleUserLogOut
 };
 
 const withConnect = connect(
@@ -160,7 +200,7 @@ const withConnect = connect(
     mapDispatchToProps
 );
 
-export default withConnect(App);
+export default withRouter(withConnect(App));
 
 App.propTypes = {
     defaultMovies: PropTypes.arrayOf(movieShape),

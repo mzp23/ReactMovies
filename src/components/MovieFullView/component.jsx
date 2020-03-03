@@ -2,23 +2,41 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./style.module.scss";
 import MoviesFullDescription from "../MoviesFullDescription/component";
-import {movieShape} from "../../helpers/propTypeShapes";
+import { movieShape } from "../../helpers/propTypeShapes";
+import Navigation from "../Navigation/component";
 
-const MovieFullView = ({ movie, handleLike, handleStar }) => {
+const MovieFullView = props => {
+  const {
+    moviesToRender,
+    movieIDX,
+    handleLike,
+    handleStar,
+    handleDelete,
+    handleEdit,
+    handleLogOut,
+    actors,
+    handleActor
+  } = props;
+  const movie = moviesToRender[movieIDX];
   return (
-    <section className={styles.movieFullView}>
-      {movie ? (
-        <MoviesFullDescription
-          movie={movie}
-          handleLike={handleLike}
-          handleStar={handleStar}
-        />
-      ) : (
-        <h3 className={styles.movieFullView}>
-          Click on the film title to show full description
-        </h3>
+    <>
+      {movieIDX && (
+        <>
+          <Navigation handleLogOut={handleLogOut} />
+          <section className={styles.movieFullView}>
+            <MoviesFullDescription
+              movie={movie}
+              handleLike={handleLike}
+              handleStar={handleStar}
+              handleDelete={() => handleDelete(movie.id)}
+              handleEdit={() => handleEdit(movie.id)}
+              actors={actors}
+              handleActor={handleActor}
+            />
+          </section>
+        </>
       )}
-    </section>
+    </>
   );
 };
 

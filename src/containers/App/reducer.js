@@ -4,12 +4,13 @@ import {
     LOAD_MOVIES,
     RESET_SORTING, SORT_BY_STARS,
     TOGGLE_SORT_BY_LIKES,
-    TOGGLE_SORT_BY_STARS, HANDLE_TITLE
+    TOGGLE_SORT_BY_STARS, HANDLE_TITLE, DELETE_MOVIE, EDIT_MOVIE, LOG_OUT
 } from "./types";
 
 const initialState = {
     defaultMovies: null,
     moviesToRender: null,
+    actors: null,
     movieToShowDescription: null,
     sortedByLikes: false,
     sortedByStars: false,
@@ -29,7 +30,8 @@ export const moviesReducer = (state = initialState, action) => {
                 ...state,
                 isLoaded: true,
                 defaultMovies: payload.defaultMovies,
-                moviesToRender: payload.moviesToRender
+                moviesToRender: payload.moviesToRender,
+                actors: payload.actors,
             };
 
         case TOGGLE_SORT_BY_LIKES:
@@ -83,6 +85,29 @@ export const moviesReducer = (state = initialState, action) => {
                 ...state,
                 movieToShowDescription: payload.movieToShowDescription,
             };
+
+        case DELETE_MOVIE: {
+            return {
+                ...state,
+                moviesToRender: payload.moviesToRender,
+                defaultMovies: payload.defaultMovies,
+            }
+        }
+
+        case EDIT_MOVIE: {
+            return {
+                ...state,
+                moviesToRender: payload.moviesToRender,
+                defaultMovies: payload.defaultMovies,
+            }
+        }
+
+        case LOG_OUT: {
+            return {
+                ...state,
+                user: null,
+            }
+        }
 
     }
 };

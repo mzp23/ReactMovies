@@ -1,8 +1,9 @@
 .navigation {
   margin: 20px 0 0 20px;
-  padding: 0;
+  padding: 15px;
   list-style: none;
   display: flex;
+  justify-content: space-between;
 }
 
 .navigationItem a {

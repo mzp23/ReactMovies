@@ -27,11 +27,11 @@ class MoviePreviewContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ appReducer }) => ({
-  moviesToRender: appReducer.moviesToRender,
-  sortedByLikes: appReducer.sortedByLikes,
-  sortedByStars: appReducer.sortedByStars,
-  resetSort: appReducer.resetSort
+const mapStateToProps = ({ moviesReducer }) => ({
+  moviesToRender: moviesReducer.moviesToRender,
+  sortedByLikes: moviesReducer.sortedByLikes,
+  sortedByStars: moviesReducer.sortedByStars,
+  resetSort: moviesReducer.resetSort
 });
 
 const withConnect = connect(mapStateToProps);
