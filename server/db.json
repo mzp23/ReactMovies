@@ -1,4 +1,5 @@
 {
+
   "movies": [
     {
       "id": 1,
@@ -267,81 +268,13 @@
       ],
       "director": "Sir Peter Robert Jackson",
       "description": "While Frodo and Sam, now accompanied by a new guide, continue their hopeless journey towards the land of shadow to destroy the One Ring, each member of the broken fellowship plays their part in the battle against the evil wizard Saruman and his armies of Isengard."
-    },
-    {
-      "title": "asdasdasdasdasdasdasd",
-      "director": "asdasdasdsadaas",
-      "posterUrl": "asdasdasdasdasdasdasd",
-      "genres": [
-        "dasdsa"
-      ],
-      "description": "asd",
-      "id": 60,
-      "actorsIds": [
-        0,
-        4,
-        5
-      ],
-      "likes": 0,
-      "stars": 0
-    },
-    {
-      "title": "asdasdasdasdasdasdasd",
-      "director": "asdasdasdsadaas",
-      "posterUrl": "asdasdasdasdasdasdasd",
-      "genres": [
-        "dasdsa"
-      ],
-      "description": "asd",
-      "id": 50,
-      "actorsIds": [
-        0,
-        4,
-        5
-      ],
-      "likes": 0,
-      "stars": 0
-    },
-    {
-      "title": "asdasdasdasdasdasdasd",
-      "director": "asdasdasdsadaas",
-      "posterUrl": "asdasdasdasdasdasdasd",
-      "genres": [
-        "dasdsa"
-      ],
-      "description": "asd",
-      "id": 1.3238268626461136,
-      "actorsIds": [
-        0,
-        4,
-        5
-      ],
-      "likes": 0,
-      "stars": 0
-    },
-    {
-      "title": "asdasdasdasdasdasdasd",
-      "director": "asdasdasdsadaas",
-      "posterUrl": "asdasdasdasdasdasdasd",
-      "genres": [
-        "dasdsa"
-      ],
-      "description": "asd",
-      "id": 343.5535202137447,
-      "actorsIds": [
-        0,
-        4,
-        5
-      ],
-      "likes": 0,
-      "stars": 0
     }
   ],
   "actors": [
     {
       "id": 0,
       "name": "Tim Robbins",
-      "imgUrl": "http://cdn1-www.comingsoon.net/assets/uploads/2016/04/file_749074_Howard2.jpg",
+      "imgUrl":"http://cdn1-www.comingsoon.net/assets/uploads/2016/04/file_749074_Howard2.jpg",
       "biography": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
     },
     {
