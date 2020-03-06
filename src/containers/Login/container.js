@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import LoginForm from "../../components/LoginForm/component";
-import {userLogin} from "./actions";
+import {fetchLogin, userLogin} from "./actions";
 import {connect} from "react-redux";
 
 
@@ -18,21 +18,15 @@ class Login extends Component {
         this.setState({passwordInput: event.target.value})
     };
 
-    handleButton = (e) => {
+    handleButton = async (e) => {
         e.preventDefault();
-        const {userLogin, history} = this.props;
+        console.log(1);
+        const {fetchLogin, history} = this.props;
         const login = this.state.loginInput;
-        const isUserExist = localStorage.getItem(`user=${login}`) && true;
-        if(!isUserExist) {
-            return alert('This user does\'t exist');
-        }
-
-        const isCorrectPassword =
-            localStorage.getItem(`user=${this.state.loginInput}`) === `password=${this.state.passwordInput}`;
-        if(!isCorrectPassword) {
-            return alert('Wrong password');
-        }
-        userLogin({user: this.state.loginInput});
+        const password = this.state.passwordInput;
+        console.log(login);
+        console.log(password);
+        await fetchLogin(login, password);
         history.push('/movies');
     };
 
@@ -53,7 +47,8 @@ class Login extends Component {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
-    userLogin
+    userLogin,
+    fetchLogin
 };
 
 const withConnect = connect(

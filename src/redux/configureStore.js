@@ -1,6 +1,7 @@
-import {createStore} from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
 import {rootReducer} from "./rootReducer";
-
+import thunk from "redux-thunk";
+import {callApi} from "../helpers/call-api";
 let devTools = f => f;
 
 const enableReduxDevtools = process.browser
@@ -14,5 +15,8 @@ if (enableReduxDevtools) {
 export const configureStore = (initialState = {}) => createStore(
     rootReducer,
     initialState,
-    devTools,
+    compose(
+        applyMiddleware(thunk.withExtraArgument(callApi)),
+        devTools
+    )
 );

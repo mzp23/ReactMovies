@@ -6,7 +6,7 @@ import MovieFullView from "../../components/MovieFullView/component";
 import {
     loadMovies, resetSorting, toggleSortByLikes, toggleSortByLStars,
     handleLike, handleStars, handleSearch, handleTitleToProps, handleDeleteMovie,
-    handleEditMovie, handleUserLogOut
+    handleEditMovie, handleUserLogOut, fetchMovies, fetchActors, fetchDeleteMovie
 } from "./actions";
 import {movieShape} from "../../helpers/propTypeShapes";
 import Movies from "../../components/Movies/component";
@@ -18,31 +18,12 @@ import PageNotFound from "../../components/PageNotFound/component";
 import ProtectedRoute from "../../Routes/ProtectedRoute";
 import EditMovieContainer from "../EditMovieContainer/container";
 import ActorContainer from '../ActorContainer/container';
+import AddMovieContainer from '../AddNewMovieContainer/container';
 class App extends Component{
 
     componentDidMount() {
-        this.getData();
+        this.props.fetchMovies();
     }
-
-    getData() {
-        const {loadMovies} = this.props;
-        fetch('http://localhost:3000/moviesData.json',
-            {
-                headers : {
-                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            }
-            )
-            .then(res => res.json())
-            .then(res => {
-                loadMovies({
-                    moviesToRender: res.movies,
-                    defaultMovies: res.movies,
-                    actors: res.actors,
-                });
-            });
-    };
 
     sortMoviesByLikes = () => {
         const {moviesToRender, sortedByLikes} = this.props;
@@ -92,22 +73,21 @@ class App extends Component{
         this.props.handleSearch({moviesToRender: searchResult});
     };
 
-    handleTitle = (movieId) => {
+    handleTitle = async (movieId) => {
 
-        const {handleTitleToProps} = this.props;
+        const {handleTitleToProps, moviesToRender, fetchActors} = this.props;
         const [moviesToRenderIndex] = findMovieIndex(movieId, this.props);
-         handleTitleToProps
+        const {actorsIds} = moviesToRender[moviesToRenderIndex];
+        handleTitleToProps
         ({movieToShowDescription: moviesToRenderIndex});
+        await fetchActors(actorsIds);
         this.props.history.push(`/movies/${movieId}`);
     };
 
-    handleDelete = (movieId) => {
-        const {history, handleDeleteMovie} = this.props;
-        handleDeleteMovie({
-                moviesToRender: this.props.moviesToRender.filter(item => item.id !== movieId),
-                defaultMovies: this.props.defaultMovies.filter(item => item.id !== movieId),
-            });
-        history.push('/movies');
+    handleDelete = async (movieId) => {
+       const {history, fetchDeleteMovie} = this.props;
+       await fetchDeleteMovie(movieId);
+       history.push('/movies');
     };
 
     handleEdit = (movieId) => {
@@ -126,8 +106,13 @@ class App extends Component{
         history.push(`/actor/${id}`);
     };
 
+    handleNewMovie = () => {
+        const {history} = this.props;
+        history.push('/add-movie');
+    };
+
     render() {
-        const {defaultMovies, movieToShowDescription, moviesToRender, actors} = this.props;
+        const {defaultMovies, movieToShowDescription, moviesToRender, actors, movieToRender} = this.props;
         return(
         <>
              <Switch>
@@ -144,8 +129,10 @@ class App extends Component{
                             sortMoviesByLikes={this.sortMoviesByLikes}
                             sortMoviesByStars={this.sortMoviesByStars}
                             resetFilters={this.resetFilters}
+                            handleNewMovie={this.handleNewMovie}
                             handleSearchResult={this.handleSearchResult}
                             handleLogOut={this.handleLogOut}
+
 
                     />}
                 />
@@ -154,6 +141,7 @@ class App extends Component{
                         movies={defaultMovies}
                         moviesToRender={moviesToRender}
                         movieIDX={movieToShowDescription}
+                        movieToRender={movieToRender}
                         handleStar={this.handleStar}
                         handleLike={this.handleLike}
                         handleDelete={this.handleDelete}
@@ -164,6 +152,8 @@ class App extends Component{
                     />} />
                 <ProtectedRoute exact path={Routes.ACTOR} {...this.props}
                            render={() => <ActorContainer  {...this.props} handleLogOut={this.handleLogOut}/>} />
+                <ProtectedRoute exact path={Routes.ADD_MOVIE} {...this.props}
+                           render={() => <AddMovieContainer  {...this.props} handleLogOut={this.handleLogOut}/>} />
                 <ProtectedRoute path={"**"} component={PageNotFound} />
             </Switch>
         </>)
@@ -173,11 +163,12 @@ class App extends Component{
 const mapStateToProps = ({moviesReducer, loginReducer}) => ({
     moviesToRender: moviesReducer.moviesToRender,
     defaultMovies: moviesReducer.defaultMovies,
+    movieToRender: moviesReducer. movieToRender,
     sortedByStars: moviesReducer.sortedByStars,
     sortedByLikes: moviesReducer.sortedByLikes,
     movieToShowDescription: moviesReducer.movieToShowDescription,
     actors: moviesReducer.actors,
-    isLoaded: moviesReducer.isLoaded,
+    loading: moviesReducer.loading,
     user: loginReducer.user,
 });
 
@@ -192,7 +183,10 @@ const mapDispatchToProps = {
     handleTitleToProps,
     handleDeleteMovie,
     handleEditMovie,
-    handleUserLogOut
+    handleUserLogOut,
+    fetchMovies,
+    fetchActors,
+    fetchDeleteMovie
 };
 
 const withConnect = connect(

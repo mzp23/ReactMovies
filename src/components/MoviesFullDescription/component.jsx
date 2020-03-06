@@ -9,8 +9,7 @@ import Stars from "../Stars/component";
 
 const MoviesFullDescription = (props) => {
   const { movie, handleLike, handleStar, handleDelete, handleEdit, actors, handleActor } = props;
-  const { likes, id, title, stars, posterUrl, director, genres, description, actorsIds } = movie;
-  const actorsToRender = actors.filter(elem => actorsIds.includes(elem.id));
+  const { likes, id, title, stars, posterUrl, director, genres, description } = movie;
   return (
     <>
       <div className={styles.subInfo}>
@@ -24,7 +23,7 @@ const MoviesFullDescription = (props) => {
         <img src={posterUrl} alt={title} className={styles.poster} />
         <p>Director: {director}</p>
         <p>
-          Actors: <Span array={actorsToRender} handleActor={handleActor} />{" "}
+          Actors: <Span array={actors} handleActor={handleActor} />{" "}
         </p>
         <p>
           Genres: <Span array={genres} />{" "}

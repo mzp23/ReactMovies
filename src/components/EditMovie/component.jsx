@@ -8,7 +8,7 @@ import Navigation from "../Navigation/component";
 const EditMovie = props => {
   const {
     title, posterUrl, director, genres, description, handleTitle, handlePoster, handleDirector, handleGenres,
-    handleDescription, handleSubmit, handleLogOut } = props;
+    handleDescription, handleSubmit, handleLogOut} = props;
 
   const movieID = props.moviesToRender[props.movieToShowDescription].id;
   const goBack = e => {

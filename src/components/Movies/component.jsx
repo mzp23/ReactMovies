@@ -8,8 +8,8 @@ import MoviePreviewContainer from "../../containers/MoviePreview/container";
 import { movieShape } from "../../helpers/propTypeShapes";
 
 const Movies = props => {
-  const { isLoaded, handleStar, handleLike, handleTitle, defaultMovies, sortMoviesByLikes, sortMoviesByStars,
-         resetFilters, handleSearchResult, handleLogOut } = props;
+  const { handleStar, handleLike, handleTitle, defaultMovies, sortMoviesByLikes, sortMoviesByStars,
+         resetFilters, handleSearchResult, handleLogOut, handleNewMovie } = props;
   return (
     <>
       <Navigation handleLogOut={handleLogOut} />
@@ -19,6 +19,7 @@ const Movies = props => {
           <Button title="by likes" handleClick={sortMoviesByLikes} />
           <Button title="by rating" handleClick={sortMoviesByStars} />
           <Button title="reset" handleClick={resetFilters} />
+          <Button title="add new movie" handleClick={handleNewMovie} />
         </div>
         <SearchBar
           handleSearchResult={handleSearchResult}
@@ -26,7 +27,6 @@ const Movies = props => {
         />
       </section>
       <div className={styles.movies}>
-        {isLoaded && (
           <>
             <section className={styles.moviePreviewContainer}>
               <MoviePreviewContainer
@@ -36,7 +36,6 @@ const Movies = props => {
               />
             </section>
           </>
-        )}
       </div>
     </>
   );
@@ -49,5 +48,4 @@ Movies.propTypes = {
   handleLike: PropTypes.func.isRequired,
   handleStar: PropTypes.func.isRequired,
   handleTitle: PropTypes.func.isRequired,
-  isLoaded: PropTypes.bool
 };

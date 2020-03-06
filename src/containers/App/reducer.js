@@ -1,10 +1,19 @@
 import {
-    HANDLE_LIKE, HANDLE_SEARCH,
+    HANDLE_LIKE,
+    HANDLE_SEARCH,
     HANDLE_STARS,
     LOAD_MOVIES,
-    RESET_SORTING, SORT_BY_STARS,
+    RESET_SORTING,
+    SORT_BY_STARS,
     TOGGLE_SORT_BY_LIKES,
-    TOGGLE_SORT_BY_STARS, HANDLE_TITLE, DELETE_MOVIE, EDIT_MOVIE, LOG_OUT
+    TOGGLE_SORT_BY_STARS,
+    HANDLE_TITLE,
+    DELETE_MOVIE,
+    EDIT_MOVIE,
+    LOG_OUT,
+    MOVIES_LOADED,
+    MOVIES_LOADING_START,
+    MOVIES_LOADING_FAIL, ACTORS_LOADED, ACTORS_LOADING_START, ACTORS_LOADING_FAIL, DELETE_MOVIE_BY_ID, LOAD_MOVIE_BY_ID
 } from "./types";
 
 const initialState = {
@@ -12,6 +21,7 @@ const initialState = {
     moviesToRender: null,
     actors: null,
     movieToShowDescription: null,
+    movieToRender: null,
     sortedByLikes: false,
     sortedByStars: false,
     resetSort: false,
@@ -25,13 +35,51 @@ export const moviesReducer = (state = initialState, action) => {
         default:
             return state;
 
-        case LOAD_MOVIES :
+        case MOVIES_LOADED :
             return {
                 ...state,
-                isLoaded: true,
-                defaultMovies: payload.defaultMovies,
-                moviesToRender: payload.moviesToRender,
-                actors: payload.actors,
+                loading: false,
+                defaultMovies: payload,
+                moviesToRender: payload,
+            };
+
+        case LOAD_MOVIE_BY_ID :
+            return {
+                ...state,
+                movieToRender: payload,
+            };
+
+          case MOVIES_LOADING_START :
+            return {
+                ...state,
+                loading: true,
+            };
+
+          case MOVIES_LOADING_FAIL :
+            return {
+                ...state,
+                loading: false,
+                error: payload
+            };
+
+           case ACTORS_LOADED :
+            return {
+                ...state,
+                loading: false,
+                actors: payload,
+            };
+
+          case ACTORS_LOADING_START :
+            return {
+                ...state,
+                loading: true,
+            };
+
+          case ACTORS_LOADING_FAIL :
+            return {
+                ...state,
+                loading: false,
+                error: payload
             };
 
         case TOGGLE_SORT_BY_LIKES:
@@ -95,6 +143,14 @@ export const moviesReducer = (state = initialState, action) => {
         }
 
         case EDIT_MOVIE: {
+            return {
+                ...state,
+                moviesToRender: payload.moviesToRender,
+                defaultMovies: payload.defaultMovies,
+            }
+        }
+
+        case DELETE_MOVIE_BY_ID: {
             return {
                 ...state,
                 moviesToRender: payload.moviesToRender,

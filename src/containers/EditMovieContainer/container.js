@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import EditMovie from "../../components/EditMovie/component";
-import {handleEditMovie} from "../App/actions";
+import {fetchEditMovie, fetchMovieById} from "../App/actions";
 import {connect} from "react-redux";
-import {findMovieIndex, updateElement} from "../../helpers/helpers";
-
 class EditMovieContainer extends Component {
     movie = this.props.moviesToRender[this.props.movieToShowDescription];
     state = {
@@ -14,7 +12,7 @@ class EditMovieContainer extends Component {
         description: '',
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({
             title: this.movie.title,
             posterUrl: this.movie.posterUrl,
@@ -46,16 +44,7 @@ class EditMovieContainer extends Component {
     handleSubmit = (movieId, event) => {
         event.preventDefault();
         const {title, director, posterUrl, genres, description} = this.state;
-
-        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, this.props);
-        this.props.handleEditMovie({
-            moviesToRender: updateElement(this.props.moviesToRender, moviesToRenderIndex,
-                {title, director, posterUrl, genres: genres.split(","), description}),
-            defaultMovies: updateElement(this.props.defaultMovies,defaultMoviesIndex,
-                {title, director, posterUrl, genres: genres.split(","), description}),
-        });
-
-
+        this.props.fetchEditMovie(movieId, {title, director, posterUrl, genres: genres.split(","), description});
         this.props.history.push(`/movies/${movieId}`);
     };
 
@@ -83,7 +72,8 @@ class EditMovieContainer extends Component {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
-    handleEditMovie
+    fetchEditMovie,
+    fetchMovieById
 };
 
 const withConnect = connect(

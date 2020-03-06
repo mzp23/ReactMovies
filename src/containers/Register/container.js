@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import LoginForm from "../../components/LoginForm/component";
 import {connect} from "react-redux";
-import {userLogin} from "../Login/actions";
+import {fetchRegister, userLogin} from "../Login/actions";
 import {withRouter} from 'react-router-dom';
 class Register extends Component {
     state = {
@@ -17,17 +17,11 @@ class Register extends Component {
       this.setState({passwordInput: event.target.value})
     };
 
-    registerUser = (e) => {
-        const {userLogin, history} = this.props;
+    registerUser = async (e) => {
+        const {history, fetchRegister} = this.props;
         e.preventDefault();
-        const login = this.state.loginInput;
-        const isUserExist = localStorage.getItem(`user=${login}`) && true;
-        if(isUserExist) {
-            return alert('This user already exist');
-        }
-
-        localStorage.setItem(`user=${this.state.loginInput}`, `password=${this.state.passwordInput}`);
-        userLogin({user: this.state.loginInput});
+        const {loginInput : login, passwordInput: password} = this.state;
+        await fetchRegister(login, password);
         history.push('/movies');
     };
 
@@ -48,7 +42,8 @@ class Register extends Component {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
-    userLogin
+    userLogin,
+    fetchRegister
 };
 
 const withConnect = connect(
