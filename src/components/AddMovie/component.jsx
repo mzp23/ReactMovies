@@ -8,8 +8,18 @@ import uuid from "uuid";
 const AddMovie = props => {
     const {
         title, posterUrl, director, genres, description, handleTitle, handlePoster, handleDirector, handleGenres,
-        handleDescription, handleSubmit, handleLogOut} = props;
-
+        handleDescription, handleSubmit, handleLogOut, words} = props;
+    const {
+        "form-edit-or-add-movie-input-title": editTitle,
+        "form-edit-or-add-movie-input-img": imgTitle,
+        "form-edit-or-add-movie-input-director": directorTitle,
+        "form-edit-or-add-movie-input-genres": genresTitle,
+        "form-edit-or-add-movie-input-description": descriptionTitle,
+        "navigation-menu-link-homepage": homepage,
+        "navigation-logout-btn": logOutTitle,
+        "form-edit-or-add-movie-btn-submit": submitTitle,
+        "form-edit-or-add-movie-btn-go-back": goBackTitle,
+    } = words;
 
     const movieID = uuid();
     const goBack = e => {
@@ -19,39 +29,39 @@ const AddMovie = props => {
 
     return (
         <>
-            <Navigation handleLogOut={handleLogOut} />
+            <Navigation handleLogOut={handleLogOut} homepage={homepage} logOutTitle={logOutTitle}/>
             <form className={styles.form}>
                 <Input
                     id={"addMovieTitle"}
-                    labelTitle={"Title"}
+                    labelTitle={editTitle}
                     value={title}
                     type={"text"}
                     onChange={(e) => handleTitle(e)}
                 />
                 <Input
                     id={"addMovieImgUrl"}
-                    labelTitle={"Img url"}
+                    labelTitle={imgTitle}
                     value={posterUrl}
                     type={"text"}
                     onChange={handlePoster}
                 />
                 <Input
                     id={"addMovieDirector"}
-                    labelTitle={"Director"}
+                    labelTitle={directorTitle}
                     value={director}
                     type={"text"}
                     onChange={handleDirector}
                 />
                 <Input
                     id={"addMovieGenres"}
-                    labelTitle={"Genres"}
+                    labelTitle={genresTitle}
                     value={genres}
                     type={"text"}
                     onChange={handleGenres}
                 />
                 <Input
                     id={"addMovieDescription"}
-                    labelTitle={"Description"}
+                    labelTitle={descriptionTitle}
                     value={description}
                     type={"textarea"}
                     onChange={handleDescription}
@@ -60,9 +70,9 @@ const AddMovie = props => {
                 <div>
                     <Button
                         handleClick={event => handleSubmit(movieID, event)}
-                        title={"Submit"}
+                        title={submitTitle}
                     />
-                    <Button handleClick={goBack} title={"Go back"} />
+                    <Button handleClick={goBack} title={goBackTitle} />
                 </div>
             </form>
         </>

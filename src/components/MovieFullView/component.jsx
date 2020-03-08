@@ -4,6 +4,7 @@ import styles from "./style.module.scss";
 import MoviesFullDescription from "../MoviesFullDescription/component";
 import { movieShape } from "../../helpers/propTypeShapes";
 import Navigation from "../Navigation/component";
+import withTranslate from "../../hoc/withTranslation";
 
 const MovieFullView = props => {
   const {
@@ -15,16 +16,44 @@ const MovieFullView = props => {
     handleEdit,
     handleLogOut,
     actors,
-    handleActor
+    handleActor,
+    words
   } = props;
+
+  const {
+    "movie-director": directorTitle,
+    "movie-actors": actorsTitle,
+    "movie-genres": genresTitle,
+    "movie-description": descriptionsTitle,
+    "movie-likes": likesTitle,
+    "movie-btn-edit-title": editBtnTitle,
+    "movie-btn-delete-title": deleteBtnTitle,
+    "navigation-menu-link-homepage": homepage,
+    "navigation-logout-btn": logOutTitle
+  } = words;
+  const wordsToMovie = {
+    directorTitle,
+    actorsTitle,
+    genresTitle,
+    descriptionsTitle,
+    likesTitle,
+    editBtnTitle,
+    deleteBtnTitle
+  };
+
   const movie = moviesToRender[movieIDX];
   return (
     <>
       {movieIDX && (
         <>
-          <Navigation handleLogOut={handleLogOut} />
+          <Navigation
+            handleLogOut={handleLogOut}
+            homepage={homepage}
+            logOutTitle={logOutTitle}
+          />
           <section className={styles.movieFullView}>
             <MoviesFullDescription
+              handleLogOut={handleLogOut}
               movie={movie}
               handleLike={handleLike}
               handleStar={handleStar}
@@ -32,6 +61,7 @@ const MovieFullView = props => {
               handleEdit={() => handleEdit(movie.id)}
               actors={actors}
               handleActor={handleActor}
+              {...wordsToMovie}
             />
           </section>
         </>
@@ -40,7 +70,7 @@ const MovieFullView = props => {
   );
 };
 
-export default MovieFullView;
+export default withTranslate(MovieFullView);
 
 MovieFullView.propTypes = {
   movie: movieShape,

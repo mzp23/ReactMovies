@@ -3,14 +3,24 @@ import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 import Navigation from "../Navigation/component";
 const Actor = props => {
-  const { img, name, biography, handleLogOut } = props;
+  const { img, name, biography, handleLogOut, words } = props;
+  const {
+    "actors-name": nameTitle,
+    "actors-biography": biographyTitle,
+    "navigation-logout-btn": logOutTitle,
+    "navigation-menu-link-homepage": homepage
+  } = words;
   return (
     <>
-      <Navigation handleLogOut={handleLogOut} />
+      <Navigation handleLogOut={handleLogOut} logOutTitle={logOutTitle} homepage={homepage}/>
       <div className={styles.wrapper}>
         <img className={styles.img} src={img} alt={name} />
-        <p className={styles.text}>Name: {name}</p>
-        <p className={styles.text}>Biography: {biography}</p>
+        <p className={styles.text}>
+          {nameTitle}: {name}
+        </p>
+        <p className={styles.text}>
+          {biographyTitle}: {biography}
+        </p>
       </div>
     </>
   );

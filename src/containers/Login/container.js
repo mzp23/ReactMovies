@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LoginForm from "../../components/LoginForm/component";
 import {fetchLogin, userLogin} from "./actions";
 import {connect} from "react-redux";
-
+import withTranslate from "../../hoc/withTranslation";
 
 class Login extends Component {
     state = {
@@ -20,7 +20,6 @@ class Login extends Component {
 
     handleButton = async (e) => {
         e.preventDefault();
-        console.log(1);
         const {fetchLogin, history} = this.props;
         const login = this.state.loginInput;
         const password = this.state.passwordInput;
@@ -31,14 +30,16 @@ class Login extends Component {
     };
 
     render() {
+        const {words} = this.props;
         return (
           <LoginForm
-              buttonTitle={"Login"}
+              buttonTitle={words['login-btn-title']}
               handleButton={this.handleButton}
               handleLogin={this.handleLogin}
               handlePassword={this.handlePassword}
               page={"login"}
-              title={"Please login"}
+              title={words['login-h2-title']}
+              {...this.props}
           />
         );
     }
@@ -55,4 +56,4 @@ const withConnect = connect(
     mapStateToProps,
     mapDispatchToProps
 );
-export default withConnect(Login);
+export default  withTranslate(withConnect(Login));

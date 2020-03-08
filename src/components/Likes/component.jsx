@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./style.module.scss";
 
-const Likes = ({ likes, handleLike, movieId }) => (
+const Likes = ({ likes, handleLike, movieId, title }) => (
   <p>
-    Likes: {likes}
+    {title}: {likes}
     <span
       className={styles.postReaction}
       onClick={() => handleLike(movieId, likes + 1)}

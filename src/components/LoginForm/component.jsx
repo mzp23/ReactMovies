@@ -7,30 +7,31 @@ import { Routes } from "../../constants";
 import styles from "./styles.module.scss";
 
 const LoginForm = props => {
-  const {
+    const {
     title,
     handleButton,
     buttonTitle,
     page,
     handlePassword,
-    handleLogin
+    handleLogin,
+    words
   } = props;
   const loginText = (
     <p>
-      Don't have an account?{" "}
+        {words['login-text']}{" "}
       {
         <Link className={styles.link} to={Routes.REGISTER}>
-          Go to Register page
+            {words['login-link-text']}
         </Link>
       }
     </p>
   );
   const registerText = (
     <p>
-      Already have an account?{" "}
+        {words['register-text']}{" "}
       {
         <Link className={styles.link} to={Routes.LOGIN}>
-          Go to Login page
+            {words['register-link-text']}
         </Link>
       }
     </p>
@@ -43,14 +44,14 @@ const LoginForm = props => {
         id={"login"}
         className={styles.input}
         type="text"
-        placeholder="Enter your name"
+        placeholder={words['login-form-input-name-placeholder']}
         onChange={handleLogin}
       />
       <input
         id={"password"}
         className={styles.input}
         type="password"
-        placeholder="Enter your password"
+        placeholder={words['login-form-input-password-placeholder']}
         onChange={handlePassword}
       />
       <Button handleClick={(e) => handleButton(e)} title={buttonTitle} />

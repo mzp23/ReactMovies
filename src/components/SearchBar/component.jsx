@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./style.module.scss";
+import withTranslate from "../../hoc/withTranslation";
 
-const SearchBar = ({ handleSearch, handleSearchRequest, value }) => {
+const SearchBar = ({ handleSearch, handleSearchRequest, value, words }) => {
   return (
     <div className={styles.container}>
       <input
@@ -10,7 +11,7 @@ const SearchBar = ({ handleSearch, handleSearchRequest, value }) => {
         className={styles.searchBar}
         onChange={e => handleSearch(e)}
         value={value}
-        placeholder="Search by name"
+        placeholder={words['app-search-bar-placeholder']}
         id="searchBar"
       />
       <label onClick={e => handleSearchRequest(e)} htmlFor="searchBar">
@@ -22,7 +23,7 @@ const SearchBar = ({ handleSearch, handleSearchRequest, value }) => {
   );
 };
 
-export default SearchBar;
+export default withTranslate(SearchBar);
 
 SearchBar.propTypes = {
   handleSearch: PropTypes.func,

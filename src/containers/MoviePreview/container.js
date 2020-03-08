@@ -5,7 +5,7 @@ import uuid from "uuid";
 
 class MoviePreviewContainer extends Component {
   render() {
-    const { handleStar, handleLike, handleTitle, moviesToRender } = this.props;
+    const { handleStar, handleLike, handleTitle, moviesToRender, likeTitle } = this.props;
     return (
       <>
         {moviesToRender &&
@@ -20,6 +20,7 @@ class MoviePreviewContainer extends Component {
               handleLike={handleLike}
               handleTitle={handleTitle}
               movieId={el.id}
+              likeTitle={likeTitle}
             />
           ))}
       </>

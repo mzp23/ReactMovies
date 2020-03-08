@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import Stars from "../Stars/component";
 import Likes from "../Likes/component";
 const MoviePreview = (props) => {
-    const { title, likes, stars, poster, handleStar, handleLike, movieId, handleTitle } = props;
+    const { title, likes, stars, poster, handleStar, handleLike, movieId, handleTitle, likeTitle } = props;
   return (
     <div className={styles.movie}>
       <h3 className={styles.title} onClick={() => handleTitle(movieId)}>
@@ -13,7 +13,7 @@ const MoviePreview = (props) => {
       <img className={styles.poster} src={poster} alt={title} />
       <Stars stars={stars} handleStar={handleStar} movieId={movieId} />
       <div>
-        <Likes likes={likes} handleLike={handleLike} movieId={movieId} />
+        <Likes likes={likes} handleLike={handleLike} movieId={movieId} title={likeTitle} />
       </div>
     </div>
   );

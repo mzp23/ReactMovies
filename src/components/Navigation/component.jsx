@@ -5,15 +5,15 @@ import { Routes } from "../../constants";
 import Button from "../Button/component";
 
 const Navigation = props => {
-  const { handleLogOut } = props;
+  const { handleLogOut, homepage, logOutTitle } = props;
   return (
     <nav>
       <ul className={styles.navigation}>
         <li className={styles.navigationItem}>
-          <Link to={Routes.HOMEPAGE}>Movies</Link>
+          <Link to={Routes.HOMEPAGE}>{homepage}</Link>
         </li>
         <li className={styles.navigationItem}>
-          <Button handleClick={handleLogOut} title={"Log out"} />
+          <Button handleClick={handleLogOut} title={logOutTitle} />
         </li>
       </ul>
     </nav>

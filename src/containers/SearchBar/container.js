@@ -3,7 +3,7 @@ import styles from "./style.module.scss";
 import PropTypes from "prop-types";
 import {movieShape} from "../../helpers/propTypeShapes";
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
   state = {
     searchInput: ""
   };
@@ -29,6 +29,7 @@ export default class SearchBar extends Component {
   };
 
   render() {
+    const {searchTitle} = this.props;
     const { searchInput } = this.state;
     return (
       <div className={styles.container}>
@@ -37,7 +38,7 @@ export default class SearchBar extends Component {
           className={styles.searchBar}
           onChange={e => this.handleSearch(e)}
           value={searchInput}
-          placeholder="Search by name"
+          placeholder={searchTitle}
           id="searchBar"
         />
         <label onClick={e => this.handleSearchRequest(e)} htmlFor="searchBar">
@@ -49,6 +50,8 @@ export default class SearchBar extends Component {
     );
   }
 }
+
+export default SearchBar
 
 SearchBar.propTypes = {
   movies: PropTypes.arrayOf(movieShape),
