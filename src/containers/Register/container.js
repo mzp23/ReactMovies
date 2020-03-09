@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {fetchRegister, userLogin} from "../Login/actions";
 import {withRouter} from 'react-router-dom';
 import withTranslate from "../../hoc/withTranslation";
+import {compose} from "redux";
 class Register extends Component {
     state = {
         loginInput: '',
@@ -30,10 +31,8 @@ class Register extends Component {
         const {words} = this.props;
         return (
             <LoginForm
-                buttonTitle={words['register-btn-title']}
                 handleButton={(e) => this.registerUser(e)}
                 page={"register"}
-                title={words['register-h2-title']}
                 handleLogin={this.handleLogin}
                 handlePassword={this.handlePassword}
                 words={words}
@@ -54,4 +53,4 @@ const withConnect = connect(
     mapDispatchToProps
 );
 
-export default withRouter(withTranslate(withConnect(Register)));
+export default compose(withRouter,withTranslate,withConnect)(Register);

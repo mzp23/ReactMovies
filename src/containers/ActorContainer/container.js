@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Actor from "../../components/Actor/component";
 import { withRouter } from "react-router-dom";
 import withTranslate from "../../hoc/withTranslation";
+import {compose} from "redux";
 
 class ActorContainer extends Component {
   render() {
@@ -21,4 +22,4 @@ class ActorContainer extends Component {
   }
 }
 
-export default withRouter(withTranslate(ActorContainer));
+export default compose(withRouter,withTranslate)(ActorContainer);

@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { findMovieIndex, sortArr, updateElement } from "../../helpers/helpers";
+import {compose} from 'redux';
+import {
+  findMovieIndex,
+  sortArr,
+  updateElement
+} from "../../helpers/helpers";
 import MovieFullView from "../../components/MovieFullView/component";
 import {
   loadMovies,
@@ -280,7 +285,7 @@ const mapDispatchToProps = {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withTranslation(withRouter(withConnect(App)));
+export default compose(withTranslation, withRouter, withConnect)(App);
 
 App.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),
