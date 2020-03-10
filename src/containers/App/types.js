@@ -9,6 +9,7 @@ export const HANDLE_SEARCH = 'HANDLE_SEARCH';
 export const HANDLE_TITLE = 'HANDLE_TITLE';
 export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const EDIT_MOVIE = 'EDIT_MOVIE';
+export const EDIT_MOVIE_INFO = 'EDIT_MOVIE_INFO';
 export const LOG_OUT = 'LOG_OUT';
 export const MOVIES_LOADED = 'MOVIES_LOADED';
 export const MOVIES_LOADING_START = 'MOVIES_LOADING_START';

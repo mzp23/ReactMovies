@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_REGISTER} from "./types";
+import {USER_LOG_OUT, USER_LOGIN, USER_REGISTER} from "./types";
 
 export const userLogin = (payload) => ({
    type: USER_LOGIN,
@@ -9,6 +9,11 @@ export const userRegister = (payload) => ({
    type: USER_REGISTER,
    payload
 });
+
+export const handleUserLogOut = () => ({
+   type: USER_LOG_OUT
+});
+
 
 export const fetchLogin = (login, password) => async (dispatch, _, api) => {
    try {

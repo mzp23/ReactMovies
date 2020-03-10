@@ -3,13 +3,12 @@ import {
   ACTORS_LOADING_FAIL,
   ACTORS_LOADING_START,
   DELETE_MOVIE,
-  EDIT_MOVIE,
+  EDIT_MOVIE, EDIT_MOVIE_INFO,
   HANDLE_LIKE,
   HANDLE_SEARCH,
   HANDLE_STARS,
   HANDLE_TITLE, LOAD_MOVIE_BY_ID,
   LOAD_MOVIES,
-  LOG_OUT,
   MOVIES_LOADED,
   MOVIES_LOADING_FAIL,
   MOVIES_LOADING_START,
@@ -17,7 +16,7 @@ import {
   TOGGLE_SORT_BY_LIKES,
   TOGGLE_SORT_BY_STARS
 } from "./types";
-import {moviesReducer} from "./reducer";
+
 import {findMovieIndex, updateElement} from "../../helpers/helpers";
 
 export const loadMovies = payload => ({
@@ -70,8 +69,9 @@ export const handleEditMovie = payload => ({
   payload
 });
 
-export const handleUserLogOut = () => ({
-  type: LOG_OUT
+export const handleEditMovieInfo = payload => ({
+  type: EDIT_MOVIE_INFO,
+  payload
 });
 
 const moviesLoaded = payload => ({
@@ -123,7 +123,6 @@ export const fetchMovies = () => async (dispatch, _, api) => {
 export const fetchMovieById = (movieId) => async (dispatch, _, api) => {
   try {
     const { data: movie, status } = await api(`movies/${movieId}`);
-    console.log(movie);
     if (status === 200) {
       dispatch(loadMovieById(movie));
     }

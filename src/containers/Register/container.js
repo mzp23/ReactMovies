@@ -1,56 +1,38 @@
-import React, {Component} from 'react';
-import LoginForm from "../../components/LoginForm/component";
-import {connect} from "react-redux";
-import {fetchRegister, userLogin} from "../Login/actions";
-import {withRouter} from 'react-router-dom';
+import React, { Component } from "react";
+import LoginForm from "../LoginForm/container";
+import { connect } from "react-redux";
+import { fetchRegister, userLogin } from "../Login/actions";
+import { withRouter } from "react-router-dom";
 import withTranslate from "../../hoc/withTranslation";
-import {compose} from "redux";
+import { compose } from "redux";
 class Register extends Component {
-    state = {
-        loginInput: '',
-        passwordInput: ''
-    };
+  registerUser = async (e, values) => {
+    const { history, fetchRegister } = this.props;
+    e.preventDefault();
+    const { login, password } = values;
+    await fetchRegister(login, password);
+    history.push("/movies");
+  };
 
-    handleLogin = (event) => {
-      this.setState({loginInput: event.target.value})
-    };
-
-    handlePassword = (event) => {
-      this.setState({passwordInput: event.target.value})
-    };
-
-    registerUser = async (e) => {
-        const {history, fetchRegister} = this.props;
-        e.preventDefault();
-        const {loginInput : login, passwordInput: password} = this.state;
-        await fetchRegister(login, password);
-        history.push('/movies');
-    };
-
-    render() {
-        const {words} = this.props;
-        return (
-            <LoginForm
-                handleButton={(e) => this.registerUser(e)}
-                page={"register"}
-                handleLogin={this.handleLogin}
-                handlePassword={this.handlePassword}
-                words={words}
-            />
-        );
-    }
+  render() {
+    const { words, history } = this.props;
+    return (
+      <LoginForm
+        handleButton={(e, values) => this.registerUser(e, values)}
+        page={"register"}
+        handleLogin={this.handleLogin}
+        handlePassword={this.handlePassword}
+        words={words}
+        history={history}
+      />
+    );
+  }
 }
-
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = {
-    userLogin,
-    fetchRegister
+  userLogin,
+  fetchRegister
 };
 
-const withConnect = connect(
-    mapStateToProps,
-    mapDispatchToProps
-);
+const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(withRouter,withTranslate,withConnect)(Register);
+export default compose(withRouter, withTranslate, withConnect)(Register);

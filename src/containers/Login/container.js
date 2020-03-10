@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LoginForm from "../../components/LoginForm/component";
+import LoginForm from "../LoginForm/container";
 import { fetchLogin, userLogin } from "./actions";
 import { connect } from "react-redux";
 import withTranslate from "../../hoc/withTranslation";
@@ -19,13 +19,10 @@ class Login extends Component {
     this.setState({ passwordInput: event.target.value });
   };
 
-  handleButton = async e => {
+  handleButton = async (e, values) => {
     e.preventDefault();
     const { fetchLogin, history } = this.props;
-    const login = this.state.loginInput;
-    const password = this.state.passwordInput;
-    console.log(login);
-    console.log(password);
+    const {login, password} = values;
     await fetchLogin(login, password);
     history.push("/movies");
   };

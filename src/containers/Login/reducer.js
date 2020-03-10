@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_REGISTER} from "./types";
+import {USER_LOG_OUT, USER_LOGIN, USER_REGISTER} from "./types";
 const initialState = {
   user: null
 };
@@ -18,5 +18,12 @@ export const loginReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+
+    case USER_LOG_OUT: {
+      return {
+        ...state,
+        user: null,
+      }
+    }
   }
 };

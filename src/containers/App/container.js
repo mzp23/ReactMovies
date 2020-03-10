@@ -19,11 +19,11 @@ import {
   handleTitleToProps,
   handleDeleteMovie,
   handleEditMovie,
-  handleUserLogOut,
   fetchMovies,
   fetchActors,
   fetchDeleteMovie
 } from "./actions";
+
 import { movieShape } from "../../helpers/propTypeShapes";
 import Movies from "../../components/Movies/component";
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
@@ -36,6 +36,8 @@ import EditMovieContainer from "../EditMovieContainer/container";
 import ActorContainer from "../ActorContainer/container";
 import AddMovieContainer from "../AddNewMovieContainer/container";
 import withTranslation from "../../hoc/withTranslation";
+import {handleUserLogOut} from "../Login/actions";
+
 class App extends Component {
   componentDidMount() {
     this.props.fetchMovies();
@@ -160,7 +162,6 @@ class App extends Component {
       actors,
       movieToRender
     } = this.props;
-    console.log(1);
     return (
       <>
         <Switch>

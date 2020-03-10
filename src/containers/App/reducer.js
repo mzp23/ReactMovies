@@ -2,7 +2,6 @@ import {
     HANDLE_LIKE,
     HANDLE_SEARCH,
     HANDLE_STARS,
-    LOAD_MOVIES,
     RESET_SORTING,
     SORT_BY_STARS,
     TOGGLE_SORT_BY_LIKES,
@@ -10,10 +9,15 @@ import {
     HANDLE_TITLE,
     DELETE_MOVIE,
     EDIT_MOVIE,
-    LOG_OUT,
     MOVIES_LOADED,
     MOVIES_LOADING_START,
-    MOVIES_LOADING_FAIL, ACTORS_LOADED, ACTORS_LOADING_START, ACTORS_LOADING_FAIL, DELETE_MOVIE_BY_ID, LOAD_MOVIE_BY_ID
+    MOVIES_LOADING_FAIL,
+    ACTORS_LOADED,
+    ACTORS_LOADING_START,
+    ACTORS_LOADING_FAIL,
+    DELETE_MOVIE_BY_ID,
+    LOAD_MOVIE_BY_ID,
+    EDIT_MOVIE_INFO
 } from "./types";
 
 const initialState = {
@@ -26,6 +30,7 @@ const initialState = {
     sortedByStars: false,
     resetSort: false,
     isLoaded: false,
+    editMovieInfo: {}
 };
 
 export const moviesReducer = (state = initialState, action) => {
@@ -150,6 +155,13 @@ export const moviesReducer = (state = initialState, action) => {
             }
         }
 
+        case EDIT_MOVIE_INFO: {
+            return {
+                ...state,
+                editMovieInfo: payload,
+            }
+        }
+
         case DELETE_MOVIE_BY_ID: {
             return {
                 ...state,
@@ -157,13 +169,5 @@ export const moviesReducer = (state = initialState, action) => {
                 defaultMovies: payload.defaultMovies,
             }
         }
-
-        case LOG_OUT: {
-            return {
-                ...state,
-                user: null,
-            }
-        }
-
     }
 };

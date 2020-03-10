@@ -62,8 +62,8 @@
       "likes": 11,
       "genres": [
         "Crime",
-        " Drama",
-        " Action"
+        "Drama",
+        "Action"
       ],
       "actorsIds": [
         8,
@@ -540,11 +540,6 @@
       "name": "me@ma.com",
       "password": "BE8EdLmf42igUhJ",
       "id": 6
-    },
-    {
-      "name": "me@ma.com",
-      "password": "BE8EdLmf42igUhJ",
-      "id": 7
     }
   ]
 }

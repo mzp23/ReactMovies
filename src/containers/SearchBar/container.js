@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./style.module.scss";
 import PropTypes from "prop-types";
-import {movieShape} from "../../helpers/propTypeShapes";
+import { movieShape } from "../../helpers/propTypeShapes";
 
 class SearchBar extends Component {
   state = {
@@ -29,7 +29,7 @@ class SearchBar extends Component {
   };
 
   render() {
-    const {searchTitle} = this.props;
+    const { searchTitle } = this.props;
     const { searchInput } = this.state;
     return (
       <div className={styles.container}>
@@ -51,7 +51,7 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar
+export default SearchBar;
 
 SearchBar.propTypes = {
   movies: PropTypes.arrayOf(movieShape),
