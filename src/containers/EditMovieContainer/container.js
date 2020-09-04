@@ -1,63 +1,57 @@
-import React, { Component } from "react";
+import React from "react";
+import { useHistory } from "react-router";
 import EditMovie from "../EditMovie/container";
-import {fetchEditMovie, fetchMovieById, handleEditMovieInfo} from "../App/actions";
+import { fetchEditMovie } from "../App/actions";
 import { connect } from "react-redux";
 
-class EditMovieContainer extends Component {
-  movie = this.props.moviesToRender[this.props.movieToShowDescription];
-  componentDidMount() {
-    this.props.handleEditMovieInfo({
-      title: this.movie.title,
-      posterUrl: this.movie.posterUrl,
-      director: this.movie.director,
-      genres: this.movie.genres.join(", "),
-      description: this.movie.description
-    });
-  }
+const EditMovieContainer = ({
+  moviesToRender,
+  movieToShowDescription,
+  fetchEditMovie,
+}) => {
+  const history = useHistory();
+  const movie = moviesToRender[movieToShowDescription];
 
-  handleSubmit = (movieId, event, values) => {
+  const handleSubmit = (movieId, event, values) => {
     event.preventDefault();
+
     const { title, director, posterUrl, genres, description } = values;
-    this.props.fetchEditMovie(movieId, {
-     title,
-     director,
-     posterUrl,
-     genres:  typeof genres === "string" ? genres.split(",") : genres,
-     description
-   });
-   this.props.history.push(`/movies/${movieId}`);
+    fetchEditMovie(movieId, {
+      title,
+      director,
+      posterUrl,
+      genres: typeof genres === "string" ? genres.split(",") : genres,
+      description,
+    });
+    history.push(`/movies/${movieId}`);
   };
 
-  render() {
-    const { title, posterUrl, director, genres, description } = this.movie;
-    return (
-      <EditMovie
-        description={description}
-        director={director}
-        genres={genres}
-        posterUrl={posterUrl}
-        title={title}
-        handleSubmit={this.handleSubmit}
-        {...this.props}
-        initialValues={{
-            description: this.movie.description,
-            title: this.movie.title,
-            genres: this.movie.genres,
-            director: this.movie.director,
-            posterUrl: this.movie.posterUrl,
-       }}
-      />
-    );
-  }
-}
-const mapStateToProps = () => ({});
+  const { title, posterUrl, director, genres, description } = movie;
+  return (
+    <EditMovie
+      moviesToRender={moviesToRender}
+      movieToShowDescription={movieToShowDescription}
+      description={description}
+      director={director}
+      genres={genres}
+      posterUrl={posterUrl}
+      title={title}
+      handleSubmit={handleSubmit}
+      initialValues={{
+        description: movie.description,
+        title: movie.title,
+        genres: movie.genres,
+        director: movie.director,
+        posterUrl: movie.posterUrl,
+      }}
+    />
+  );
+};
 
 const mapDispatchToProps = {
   fetchEditMovie,
-  fetchMovieById,
-  handleEditMovieInfo
 };
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(null, mapDispatchToProps);
 
 export default withConnect(EditMovieContainer);

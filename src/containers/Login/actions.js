@@ -1,19 +1,18 @@
-import {USER_LOG_OUT, USER_LOGIN, USER_REGISTER} from "./types";
+import { USER_LOG_OUT, USER_LOGIN, USER_REGISTER } from "./types";
 
 export const userLogin = (payload) => ({
-   type: USER_LOGIN,
-   payload
+  type: USER_LOGIN,
+  payload,
 });
 
 export const userRegister = (payload) => ({
-   type: USER_REGISTER,
-   payload
+  type: USER_REGISTER,
+  payload,
 });
 
 export const handleUserLogOut = () => ({
-   type: USER_LOG_OUT
+  type: USER_LOG_OUT,
 });
-
 
 export const fetchLogin = (login, password) => async (dispatch, _, api) => {
    try {
@@ -33,11 +32,11 @@ export const fetchLogin = (login, password) => async (dispatch, _, api) => {
 };
 
 export const fetchRegister = (login, password) => async (dispatch, _, api) => {
-   try {
-      await api("users", 'post', {name: login, password});
-      dispatch(userRegister({login, password}));
-      dispatch(userLogin({login, password}))
-   } catch (error) {
-      console.log(error);
-   }
+  try {
+    await api("users", "post", { name: login, password });
+    dispatch(userRegister({ login, password }));
+    dispatch(userLogin({ login, password }));
+  } catch (error) {
+    console.log(error);
+  }
 };

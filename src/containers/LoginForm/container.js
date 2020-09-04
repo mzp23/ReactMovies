@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Routes } from "../../constants";
@@ -9,11 +9,8 @@ import withTranslate from "../../hoc/withTranslation";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import Button from "../../components/Button/component";
-import { fetchLogin } from "../Login/actions";
 
-class LoginForm extends Component {
-  render() {
-    const { handleButton, words, page, values } = this.props;
+const LoginForm = ({ handleButton, words, page, values }) => {
     const pageToRender = page === "login" ? "login" : "register";
     const to = page === "login" ? "REGISTER" : "LOGIN";
     const textToRender = (
@@ -55,17 +52,12 @@ class LoginForm extends Component {
       </form>
     );
   }
-}
 
 const mapStateToProps = state => ({
   values: getFormValues("login-form")(state)
 });
 
-const mapDispatchToProps = {
-  fetchLogin
-};
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps);
 
 export default compose(
   reduxForm({ form: "login-form" }),

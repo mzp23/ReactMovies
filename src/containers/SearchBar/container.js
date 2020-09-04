@@ -1,59 +1,49 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styles from "./style.module.scss";
 import PropTypes from "prop-types";
 import { movieShape } from "../../helpers/propTypeShapes";
 
-class SearchBar extends Component {
-  state = {
-    searchInput: ""
+const SearchBar = ({ searchTitle, movies, handleSearchResult }) => {
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearch = (e) => {
+    setSearchInput(e.target.value);
   };
 
-  handleSearch = e => {
-    this.setState({ searchInput: e.target.value });
-  };
-
-  handleSearchRequest = () => {
-    const { searchInput } = this.state;
-    const { movies, handleSearchResult } = this.props;
+  const handleSearchRequest = () => {
     const string = searchInput
       .split(" ")
-      .filter(el => el)
+      .filter((el) => el)
       .join(" ");
     const regExp = new RegExp(string, "i");
-    const filteredMovies = movies.filter(el => el.title.match(regExp));
+    const filteredMovies = movies.filter((el) => el.title.match(regExp));
     const moviesToRender = string.trim() ? filteredMovies : movies;
     handleSearchResult(moviesToRender);
-    this.setState({
-      searchInput: ""
-    });
+    setSearchInput("");
   };
 
-  render() {
-    const { searchTitle } = this.props;
-    const { searchInput } = this.state;
-    return (
-      <div className={styles.container}>
-        <input
-          type="text"
-          className={styles.searchBar}
-          onChange={e => this.handleSearch(e)}
-          value={searchInput}
-          placeholder={searchTitle}
-          id="searchBar"
-        />
-        <label onClick={e => this.handleSearchRequest(e)} htmlFor="searchBar">
-          <span className={styles.img} role="img" aria-label="search bar">
-            &#128269;
-          </span>
-        </label>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.container}>
+      <input
+        type="text"
+        className={styles.searchBar}
+        onChange={(e) => handleSearch(e)}
+        value={searchInput}
+        placeholder={searchTitle}
+        id="searchBar"
+      />
+      <label onClick={(e) => handleSearchRequest(e)} htmlFor="searchBar">
+        <span className={styles.img} role="img" aria-label="search bar">
+          &#128269;
+        </span>
+      </label>
+    </div>
+  );
+};
 
 export default SearchBar;
 
 SearchBar.propTypes = {
   movies: PropTypes.arrayOf(movieShape),
-  handleSearchResult: PropTypes.func
+  handleSearchResult: PropTypes.func,
 };

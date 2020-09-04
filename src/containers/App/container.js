@@ -172,8 +172,9 @@ class App extends Component {
             path={Routes.EDIT_MOVIE}
             render={() => (
               <EditMovieContainer
-                {...this.props}
-                handleLogOut={this.handleLogOut}
+              movieToShowDescription={movieToShowDescription}
+              moviesToRender={moviesToRender}
+              handleLogOut={this.handleLogOut}
               />
             )}
           />
