@@ -30,17 +30,11 @@ const Movies = props => {
     "app-sorting-btn-add-movie": addMovieTitle,
     "app-sorting-title": sortingTitle,
     "app-search-bar-placeholder": searchTitle,
-    "navigation-logout-btn": logOutTitle,
-    "navigation-menu-link-homepage": homepage,
     "movie-likes": likeTitle,
   } = words;
   return (
     <>
-      <Navigation
-        handleLogOut={handleLogOut}
-        logOutTitle={logOutTitle}
-        homepage={homepage}
-      />
+      <Navigation />
       <section className={styles.sorting}>
         <h2>{sortingTitle}</h2>
         <div className={styles.buttonContainer}>

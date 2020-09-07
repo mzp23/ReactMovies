@@ -26,9 +26,7 @@ const MovieFullView = props => {
     "movie-description": descriptionsTitle,
     "movie-likes": likesTitle,
     "movie-btn-edit-title": editBtnTitle,
-    "movie-btn-delete-title": deleteBtnTitle,
-    "navigation-menu-link-homepage": homepage,
-    "navigation-logout-btn": logOutTitle
+    "movie-btn-delete-title": deleteBtnTitle
   } = words;
   const wordsToMovie = {
     directorTitle,
@@ -45,10 +43,7 @@ const MovieFullView = props => {
     <>
       {movieIDX && (
         <>
-          <Navigation
-            homepage={homepage}
-            logOutTitle={logOutTitle}
-          />
+          <Navigation />
           <section className={styles.movieFullView}>
             <MoviesFullDescription
               movie={movie}

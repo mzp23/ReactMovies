@@ -32,19 +32,13 @@ const EditMovie = ({
     "form-edit-or-add-movie-input-director": directorTitle,
     "form-edit-or-add-movie-input-genres": genresTitle,
     "form-edit-or-add-movie-input-description": descriptionTitle,
-    "navigation-menu-link-homepage": homepage,
-    "navigation-logout-btn": logOutTitle,
     "form-edit-or-add-movie-btn-submit": submitTitle,
     "form-edit-or-add-movie-btn-go-back": goBackTitle,
   } = words;
 
   return (
     <>
-      <Navigation
-        handleLogOut={handleLogOut}
-        logOutTitle={logOutTitle}
-        homepage={homepage}
-      />
+      <Navigation />
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
           name="title"

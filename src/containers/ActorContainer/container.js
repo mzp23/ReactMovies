@@ -15,7 +15,6 @@ const ActorContainer = ({ location, actors, handleLogOut, words }) => {
       biography={actor.biography}
       img={actor.imgUrl}
       name={actor.name}
-      handleLogOut={handleLogOut}
     />
   );
 };
