@@ -1,60 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as en from "../int/en";
 import * as ua from "../int/ua";
-import styles from "../containers/App/styles.module.scss";
-const withTranslate = WrappedComponent => {
-  class Translated extends React.Component {
-    state = {
-      language: "en"
-    };
+import { connect } from "react-redux";
 
-    componentDidMount() {
-      const that = this;
+import { compose } from "redux";
+const withTranslate = (WrappedComponent) => {
+  const Translated = ({
+    languageToRender,
+    switchToEngLang,
+    switchToUaLang,
+    ...props
+  }) => {
+    const [language, setLanguage] = useState("");
+
+    useEffect(() => {
       const languageFromLS = localStorage.getItem("language");
-      that.setState({ language: languageFromLS ? languageFromLS : "en" });
-    }
+      
+      if (languageFromLS && !language) {
+        setLanguage(languageFromLS);
 
-    handleChangeLanguage = e => {
-      const languageToLS = e.target.classList.contains("btn-change-lang--en")
-        ? "en"
-        : "ua";
-      localStorage.setItem("language", languageToLS);
-      const languageFromLS = localStorage.getItem("language");
-      this.setState({
-        language: languageFromLS
-      });
-    };
+      } else if (languageFromLS && languageToRender !== languageFromLS) {
+        localStorage.setItem("language", languageToRender);
+        setLanguage(languageToRender);
 
-    render() {
-      const languageToRender = this.state.language === "en" ? en : ua;
-      const { default: words } = languageToRender;
-      return (
-        <>
-          <div className={styles["lang-btn-container"]}>
-            <button
-              className={"btn-change-lang btn-change-lang--en"}
-              onClick={e => this.handleChangeLanguage(e)}
-            >
-              EN
-            </button>
-            <button
-              className={"btn-change-lang btn-change-lang--ua"}
-              onClick={e => this.handleChangeLanguage(e)}
-            >
-              UA
-            </button>
-          </div>
-          <WrappedComponent
-            {...this.props}
-            words={words}
-            handleChangeLanguage={this.handleChangeLanguage}
-          />
-        </>
-      );
-    }
-  }
+      } else if (!languageFromLS) {
+        localStorage.setItem("language", languageToRender);
+        setLanguage(languageToRender);
+
+      } else if (languageFromLS) {
+        setLanguage(languageFromLS);
+      }
+    }, [languageToRender, language]);
+
+    const { default: words } = language === "en" ? en : ua;
+
+    return <WrappedComponent {...props} words={words} />;
+  };
 
   return Translated;
 };
 
-export default withTranslate;
+const mapStateToProps = ({ languageReducer }) => ({
+  languageToRender: languageReducer.language,
+});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect, withTranslate);
