@@ -4,10 +4,16 @@ import styles from "./styles.module.scss";
 import { Routes } from "../../constants";
 import Button from "../Button/component";
 import { connect } from "react-redux";
-import { handleUserLogOut } from '../../containers/Login/actions'
+import { handleUserLogOut } from "../../containers/Login/actions";
+import { compose } from "redux";
+import withTranslate from "../../hoc/withTranslation";
 
+const Navigation = ({ handleUserLogOut, words }) => {
+  const {
+    "navigation-logout-btn": logOutTitle,
+    "navigation-menu-link-homepage": homepage,
+  } = words;
 
-const Navigation = ({ handleUserLogOut, homepage, logOutTitle }) => {
   return (
     <nav>
       <ul className={styles.navigation}>
@@ -23,7 +29,9 @@ const Navigation = ({ handleUserLogOut, homepage, logOutTitle }) => {
 };
 
 const mapDispatchToPros = {
-  handleUserLogOut
-}
+  handleUserLogOut,
+};
 
-export default connect(null, mapDispatchToPros)(Navigation);
+const withConnect = connect(null, mapDispatchToPros);
+
+export default compose(withTranslate, withConnect)(Navigation);

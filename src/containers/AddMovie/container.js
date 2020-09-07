@@ -23,8 +23,6 @@ const AddMovie = ({
     "form-edit-or-add-movie-input-director": directorTitle,
     "form-edit-or-add-movie-input-genres": genresTitle,
     "form-edit-or-add-movie-input-description": descriptionTitle,
-    "navigation-menu-link-homepage": homepage,
-    "navigation-logout-btn": logOutTitle,
     "form-edit-or-add-movie-btn-submit": submitTitle,
     "form-edit-or-add-movie-btn-go-back": goBackTitle,
   } = words;
@@ -36,11 +34,7 @@ const AddMovie = ({
 
   return (
     <>
-      <Navigation
-        handleLogOut={handleLogOut}
-        homepage={homepage}
-        logOutTitle={logOutTitle}
-      />
+      <Navigation />
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
           name="title"
