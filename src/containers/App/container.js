@@ -31,7 +31,7 @@ import ProtectedRoute from "../../Routes/ProtectedRoute";
 import EditMovieContainer from "../EditMovieContainer/container";
 import ActorContainer from "../ActorContainer/container";
 import AddMovieContainer from "../AddNewMovieContainer/container";
-import withTranslation from "../../hoc/withTranslation";
+import LanguageToggler from "../LanguageToggler/container";
 import { handleUserLogOut } from "../Login/actions";
 
 class App extends Component {
@@ -160,6 +160,7 @@ class App extends Component {
     } = this.props;
     return (
       <>
+        <LanguageToggler />
         <Switch>
           <Route exact path={Routes.LOGIN} component={Login} />
           <Route exact path={Routes.REGISTER} component={Register} />
@@ -262,7 +263,7 @@ const mapDispatchToProps = {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withTranslation, withRouter, withConnect)(App);
+export default compose(withRouter, withConnect)(App);
 
 App.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),

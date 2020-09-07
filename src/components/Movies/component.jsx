@@ -22,7 +22,6 @@ const Movies = props => {
     handleNewMovie,
     words
   } = props;
-
   const {
     "app-sorting-btn-likes": likesBtnTitle,
     "app-sorting-btn-rating": ratingTitle,
