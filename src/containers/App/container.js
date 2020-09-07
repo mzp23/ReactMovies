@@ -262,7 +262,7 @@ const mapDispatchToProps = {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withTranslation, withRouter, withConnect)(App);
+export default compose(withRouter, withConnect)(App);
 
 App.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),
