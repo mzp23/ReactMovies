@@ -14,7 +14,6 @@ const MovieFullView = props => {
     handleStar,
     handleDelete,
     handleEdit,
-    handleLogOut,
     actors,
     handleActor,
     words
@@ -47,13 +46,11 @@ const MovieFullView = props => {
       {movieIDX && (
         <>
           <Navigation
-            handleLogOut={handleLogOut}
             homepage={homepage}
             logOutTitle={logOutTitle}
           />
           <section className={styles.movieFullView}>
             <MoviesFullDescription
-              handleLogOut={handleLogOut}
               movie={movie}
               handleLike={handleLike}
               handleStar={handleStar}

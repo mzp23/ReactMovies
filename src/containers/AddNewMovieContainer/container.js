@@ -3,8 +3,10 @@ import { fetchAddNewMovie } from "./actions";
 import { connect } from "react-redux";
 import AddMovie from "../AddMovie/container";
 import { fetchMovies } from "../App/actions";
+import { useHistory } from "react-router-dom";
 
-const AddMovieContainer = ({ fetchAddNewMovie, history, fetchMovies }) => {
+const AddMovieContainer = ({ fetchAddNewMovie, fetchMovies }) => {
+  const history = useHistory();
   const handleSubmit = async (event, values) => {
     event.preventDefault();
     const { title, director, posterUrl, genres, description } = values;

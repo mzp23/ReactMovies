@@ -5,7 +5,8 @@ import Stars from "../Stars/component";
 import Likes from "../Likes/component";
 const MoviePreview = (props) => {
     const { title, likes, stars, poster, handleStar, handleLike, movieId, handleTitle, likeTitle } = props;
-  return (
+ 
+    return (
     <div className={styles.movie}>
       <h3 className={styles.title} onClick={() => handleTitle(movieId)}>
         {title}

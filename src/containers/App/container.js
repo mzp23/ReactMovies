@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {compose} from 'redux';
-import {
-  findMovieIndex,
-  sortArr,
-  updateElement
-} from "../../helpers/helpers";
+import { compose } from "redux";
+import { findMovieIndex, sortArr, updateElement } from "../../helpers/helpers";
 import MovieFullView from "../../components/MovieFullView/component";
 import {
   loadMovies,
@@ -21,7 +17,7 @@ import {
   handleEditMovie,
   fetchMovies,
   fetchActors,
-  fetchDeleteMovie
+  fetchDeleteMovie,
 } from "./actions";
 
 import { movieShape } from "../../helpers/propTypeShapes";
@@ -36,7 +32,7 @@ import EditMovieContainer from "../EditMovieContainer/container";
 import ActorContainer from "../ActorContainer/container";
 import AddMovieContainer from "../AddNewMovieContainer/container";
 import withTranslation from "../../hoc/withTranslation";
-import {handleUserLogOut} from "../Login/actions";
+import { handleUserLogOut } from "../Login/actions";
 
 class App extends Component {
   componentDidMount() {
@@ -50,7 +46,7 @@ class App extends Component {
     );
     this.props.toggleSortByLikes({
       sortedByLikes: !sortedByLikes,
-      moviesToRender: movies
+      moviesToRender: movies,
     });
   };
 
@@ -61,7 +57,7 @@ class App extends Component {
     );
     this.props.toggleSortByLStars({
       sortedByStars: !sortedByStars,
-      moviesToRender: movies
+      moviesToRender: movies,
     });
   };
 
@@ -69,7 +65,7 @@ class App extends Component {
     const { moviesToRender } = this.props;
     const movies = [...moviesToRender].sort((a, b) => a.id - b.id);
     this.props.resetSorting({
-      moviesToRender: movies
+      moviesToRender: movies,
     });
   };
 
@@ -90,7 +86,7 @@ class App extends Component {
         this.props.defaultMovies,
         defaultMoviesIndex,
         { stars }
-      )
+      ),
     });
   };
 
@@ -110,15 +106,15 @@ class App extends Component {
         this.props.defaultMovies,
         defaultMoviesIndex,
         { likes }
-      )
+      ),
     });
   };
 
-  handleSearchResult = searchResult => {
+  handleSearchResult = (searchResult) => {
     this.props.handleSearch({ moviesToRender: searchResult });
   };
 
-  handleTitle = async movieId => {
+  handleTitle = async (movieId) => {
     const { handleTitleToProps, moviesToRender, fetchActors } = this.props;
     const [moviesToRenderIndex] = findMovieIndex(movieId, this.props);
     const { actorsIds } = moviesToRender[moviesToRenderIndex];
@@ -127,13 +123,13 @@ class App extends Component {
     this.props.history.push(`/movies/${movieId}`);
   };
 
-  handleDelete = async movieId => {
+  handleDelete = async (movieId) => {
     const { history, fetchDeleteMovie } = this.props;
     await fetchDeleteMovie(movieId);
     history.push("/movies");
   };
 
-  handleEdit = movieId => {
+  handleEdit = (movieId) => {
     const { history } = this.props;
     history.push(`/edit-movie/${movieId}`);
   };
@@ -144,7 +140,7 @@ class App extends Component {
     history.push("/login");
   };
 
-  handleActor = id => {
+  handleActor = (id) => {
     const { history } = this.props;
     history.push(`/actor/${id}`);
   };
@@ -160,7 +156,7 @@ class App extends Component {
       movieToShowDescription,
       moviesToRender,
       actors,
-      movieToRender
+      movieToRender,
     } = this.props;
     return (
       <>
@@ -172,29 +168,21 @@ class App extends Component {
             path={Routes.EDIT_MOVIE}
             render={() => (
               <EditMovieContainer
-              movieToShowDescription={movieToShowDescription}
-              moviesToRender={moviesToRender}
-              handleLogOut={this.handleLogOut}
+                movieToShowDescription={movieToShowDescription}
+                moviesToRender={moviesToRender}
               />
             )}
           />
 
-          <ProtectedRoute
-            exact
-            path={Routes.HOMEPAGE}
-            {...this.props}
-            handleLogOut={this.handleLogOut}
-          >
+          <ProtectedRoute exact path={Routes.HOMEPAGE} {...this.props}>
             <Redirect to={Routes.MOVIES} />
           </ProtectedRoute>
           <ProtectedRoute
             exact
             path={Routes.MOVIES}
             {...this.props}
-            handleLogOut={this.handleLogOut}
             render={() => (
               <Movies
-                {...this.props}
                 handleLike={this.handleLike}
                 handleStar={this.handleStar}
                 handleTitle={this.handleTitle}
@@ -203,7 +191,6 @@ class App extends Component {
                 resetFilters={this.resetFilters}
                 handleNewMovie={this.handleNewMovie}
                 handleSearchResult={this.handleSearchResult}
-                handleLogOut={this.handleLogOut}
               />
             )}
           />
@@ -221,7 +208,6 @@ class App extends Component {
                 handleLike={this.handleLike}
                 handleDelete={this.handleDelete}
                 handleEdit={this.handleEdit}
-                handleLogOut={this.handleLogOut}
                 actors={actors}
                 handleActor={this.handleActor}
               />
@@ -230,24 +216,13 @@ class App extends Component {
           <ProtectedRoute
             exact
             path={Routes.ACTOR}
-            {...this.props}
-            render={() => (
-              <ActorContainer
-                {...this.props}
-                handleLogOut={this.handleLogOut}
-              />
-            )}
+            component={ActorContainer}
           />
           <ProtectedRoute
             exact
             path={Routes.ADD_MOVIE}
             {...this.props}
-            render={() => (
-              <AddMovieContainer
-                {...this.props}
-                handleLogOut={this.handleLogOut}
-              />
-            )}
+            render={() => <AddMovieContainer />}
           />
           <Route path={"**"} component={PageNotFound} />
         </Switch>
@@ -265,7 +240,7 @@ const mapStateToProps = ({ moviesReducer, loginReducer }) => ({
   movieToShowDescription: moviesReducer.movieToShowDescription,
   actors: moviesReducer.actors,
   loading: moviesReducer.loading,
-  user: loginReducer.user
+  user: loginReducer.user,
 });
 
 const mapDispatchToProps = {
@@ -282,7 +257,7 @@ const mapDispatchToProps = {
   handleUserLogOut,
   fetchMovies,
   fetchActors,
-  fetchDeleteMovie
+  fetchDeleteMovie,
 };
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
@@ -298,5 +273,5 @@ App.propTypes = {
   handleLike: PropTypes.func,
   handleStars: PropTypes.func,
   handleSearch: PropTypes.func,
-  handleTitleToProps: PropTypes.func
+  handleTitleToProps: PropTypes.func,
 };

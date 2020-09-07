@@ -7,19 +7,16 @@ import { compose } from "redux";
 import withTranslate from "../../hoc/withTranslation";
 import { Field, getFormValues, reduxForm } from "redux-form";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const AddMovie = ({
-  title,
-  posterUrl,
-  director,
-  genres,
-  description,
   handleSubmit,
   handleLogOut,
   words,
-  history,
   values,
 }) => {
+  const history = useHistory();
+
   const {
     "form-edit-or-add-movie-input-title": editTitle,
     "form-edit-or-add-movie-input-img": imgTitle,

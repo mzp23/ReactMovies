@@ -48,10 +48,16 @@ const EditMovieContainer = ({
   );
 };
 
+const mapStateToProps = ({ moviesReducer, loginReducer }) => ({
+  moviesToRender: moviesReducer.moviesToRender,
+  movieToShowDescription: moviesReducer.movieToShowDescription,
+  user: loginReducer.user
+});
+
 const mapDispatchToProps = {
   fetchEditMovie,
 };
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default withConnect(EditMovieContainer);
