@@ -1,9 +1,10 @@
-.movie_full_view {
-  width: 50%;
+.movieFullView {
+  margin-top: 5%;
   display: flex;
+  justify-content: center;
   padding: 10px;
 }
 
-.movie_full_view_title {
+.title {
   text-align: center;
 }

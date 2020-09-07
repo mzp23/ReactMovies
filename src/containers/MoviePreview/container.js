@@ -1,66 +1,42 @@
-import React, {Component} from 'react';
+import React from "react";
+import { connect } from "react-redux";
 import MoviePreview from "../../components/MoviePreview/component";
-import {sortArr} from "../../helpers/helpers";
-import uuid from 'uuid';
+import uuid from "uuid";
 
-class MoviePreviewContainer extends Component {
+const MoviePreviewContainer = ({
+  handleStar,
+  handleLike,
+  handleTitle,
+  moviesToRender,
+  likeTitle,
+}) => {
+  return (
+    <>
+      {moviesToRender &&
+        moviesToRender.map((el) => (
+          <MoviePreview
+            key={uuid()}
+            stars={el.stars}
+            likes={el.likes}
+            title={el.title}
+            poster={el.posterUrl}
+            handleStar={handleStar}
+            handleLike={handleLike}
+            handleTitle={handleTitle}
+            movieId={el.id}
+            likeTitle={likeTitle}
+          />
+        ))}
+    </>
+  );
+};
+const mapStateToProps = ({ moviesReducer }) => ({
+  moviesToRender: moviesReducer.moviesToRender,
+  sortedByLikes: moviesReducer.sortedByLikes,
+  sortedByStars: moviesReducer.sortedByStars,
+  resetSort: moviesReducer.resetSort,
+});
 
-    // shouldComponentUpdate(nextProps, nextState, nextContext) {
-    //     return nextProps.movie !== this.props.movies;
-    // }
+const withConnect = connect(mapStateToProps);
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.sortedByLikes !== this.props.sortedByLikes) {
-            this.sortMoviesByLikes();
-        }
-
-        if (prevProps.sortedByStars !== this.props.sortedByStars) {
-            this.sortMoviesByStars();
-        }
-
-        if (this.props.resetSort) {
-            this.resetFilters();
-        }
-    }
-
-    sortMoviesByLikes = () => {
-        const moviesToRender = [...this.props.movies]
-            .sort((a,b) => sortArr(a.likes,b.likes, this.props.sortedByLikes));
-         this.props.handleSortMoviesByLikes(moviesToRender);
-    };
-
-    sortMoviesByStars = () => {
-        const moviesToRender = [...this.props.movies]
-            .sort((a, b) => sortArr(a.stars, b.stars, this.props.sortedByStars));
-        this.props.handleSortMoviesByStars(moviesToRender)
-    };
-
-    resetFilters = () => {
-        const sortedArr = [...this.props.movies].sort((a,b) => a.id - b.id);
-        this.props.handleResetFilters({
-            moviesToRender: sortedArr,
-            resetSort: false
-        })
-    };
-
-    render() {
-        return (
-            <>
-                {this.props.movies && this.props.movies.map((el) =>
-                    <MoviePreview
-                            key={uuid()}
-                            stars={el.stars}
-                            likes={el.likes}
-                            title={el.title}
-                            poster={el.posterUrl}
-                            handleStar={this.props.handleStar}
-                            handleLike={this.props.handleLike}
-                            handleTitle={this.props.handleTitle}
-                            movieId={el.id}
-                    />)}
-            </>
-        );
-    }
-}
-
-export default MoviePreviewContainer;
+export default withConnect(MoviePreviewContainer);

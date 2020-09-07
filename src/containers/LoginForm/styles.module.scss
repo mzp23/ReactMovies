@@ -1,0 +1,21 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 12%;
+}
+
+.input {
+  border-radius: 5px;
+  min-width: 300px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.link {
+  text-decoration: none;
+  &:visited {
+    color: #3fafff;
+  }
+}
