@@ -16,7 +16,7 @@ const Navigation = ({ handleUserLogOut, words }) => {
 
   const location = useLocation();
 
-  if (location.pathname.match(/register/) || location.pathname.match(/login/)){
+  if (location.pathname.match(/register|login/)){
     return null;
   }
 
