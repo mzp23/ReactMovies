@@ -48,10 +48,9 @@ const EditMovieContainer = ({
   );
 };
 
-const mapStateToProps = ({ moviesReducer, loginReducer }) => ({
+const mapStateToProps = ({ moviesReducer }) => ({
   moviesToRender: moviesReducer.moviesToRender,
   movieToShowDescription: moviesReducer.movieToShowDescription,
-  user: loginReducer.user
 });
 
 const mapDispatchToProps = {

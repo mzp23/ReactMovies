@@ -167,12 +167,7 @@ class App extends Component {
           <Route
             exact
             path={Routes.EDIT_MOVIE}
-            render={() => (
-              <EditMovieContainer
-                movieToShowDescription={movieToShowDescription}
-                moviesToRender={moviesToRender}
-              />
-            )}
+            component={EditMovieContainer}
           />
 
           <ProtectedRoute exact path={Routes.HOMEPAGE} {...this.props}>
