@@ -222,8 +222,7 @@ class App extends Component {
           <ProtectedRoute
             exact
             path={Routes.ADD_MOVIE}
-            {...this.props}
-            render={() => <AddMovieContainer />}
+            component={AddMovieContainer}
           />
           <Route path={"**"} component={PageNotFound} />
         </Switch>
