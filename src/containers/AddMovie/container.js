@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./styles.module.scss";
 import Button from "../../components/Button/component";
 import Input from "../../components/Input/component";
-import Navigation from "../../components/Navigation/component";
 import { compose } from "redux";
 import withTranslate from "../../hoc/withTranslation";
 import { Field, getFormValues, reduxForm } from "redux-form";
@@ -34,7 +33,6 @@ const AddMovie = ({
 
   return (
     <>
-      <Navigation />
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
           name="title"

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 import Button from "../../components/Button/component";
 import Input from "../../components/Input/component";
-import Navigation from "../../components/Navigation/component";
 import withTranslate from "../../hoc/withTranslation";
 import { reduxForm, Field, getFormValues } from "redux-form";
 import { compose } from "redux";
@@ -38,7 +37,6 @@ const EditMovie = ({
 
   return (
     <>
-      <Navigation />
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
           name="title"

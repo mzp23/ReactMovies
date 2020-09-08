@@ -32,6 +32,7 @@ import EditMovieContainer from "../EditMovieContainer/container";
 import ActorContainer from "../ActorContainer/container";
 import AddMovieContainer from "../AddNewMovieContainer/container";
 import LanguageToggler from "../LanguageToggler/container";
+import Navigation from "../../components/Navigation/component";
 import { handleUserLogOut } from "../Login/actions";
 
 class App extends Component {
@@ -161,18 +162,14 @@ class App extends Component {
     return (
       <>
         <LanguageToggler />
+        <Navigation />
         <Switch>
           <Route exact path={Routes.LOGIN} component={Login} />
           <Route exact path={Routes.REGISTER} component={Register} />
           <Route
             exact
             path={Routes.EDIT_MOVIE}
-            render={() => (
-              <EditMovieContainer
-                movieToShowDescription={movieToShowDescription}
-                moviesToRender={moviesToRender}
-              />
-            )}
+            component={EditMovieContainer}
           />
 
           <ProtectedRoute exact path={Routes.HOMEPAGE} {...this.props}>
@@ -222,8 +219,7 @@ class App extends Component {
           <ProtectedRoute
             exact
             path={Routes.ADD_MOVIE}
-            {...this.props}
-            render={() => <AddMovieContainer />}
+            component={AddMovieContainer}
           />
           <Route path={"**"} component={PageNotFound} />
         </Switch>

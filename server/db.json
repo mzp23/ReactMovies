@@ -19,42 +19,6 @@
       "description": "Chronicles the experiences of a formerly successful banker as a prisoner in the gloomy jailhouse of Shawshank after being found guilty of a crime he did not commit. The film portrays the man's unique way of dealing with his new, torturous life; along the way he befriends a number of fellow prisoners, most notably a wise long-term inmate named Red."
     },
     {
-      "id": 2,
-      "title": "The Godfather",
-      "posterUrl": "https://images-na.ssl-images-amazon.com/images/I/510L5ypQBdL._AC_SL1024_.jpg",
-      "stars": 4,
-      "likes": 15,
-      "genres": [
-        "Crime",
-        "Drama"
-      ],
-      "actorsIds": [
-        3,
-        4,
-        5
-      ],
-      "director": "фывфывыфв",
-      "description": "When the aging head of a famous crime family decides to transfer his position to one of his subalterns, a series of unfortunate events start happening to the family, and a war begins between all the well-known families leading to insolence, deportation, murder and revenge, and ends with the favorable successor being finally chosen"
-    },
-    {
-      "id": 3,
-      "title": "The Godfather: Part II",
-      "posterUrl": "https://images-na.ssl-images-amazon.com/images/I/71mgX2K40lL._AC_SL1500_.jpg",
-      "stars": 2,
-      "likes": 10,
-      "genres": [
-        "Crime",
-        "Drama"
-      ],
-      "actorsIds": [
-        4,
-        6,
-        7
-      ],
-      "director": "Francis Ford Coppola",
-      "description": "Chronicles the experiences of a formerly successful banker as a prisoner in the gloomy jailhouse of Shawshank after being found guilty of a crime he did not commit. The film portrays the man's unique way of dealing with his new, torturous life; along the way he befriends a number of fellow prisoners, most notably a wise long-term inmate named Red"
-    },
-    {
       "id": 4,
       "title": "The Dark Knight",
       "posterUrl": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SY500_CR0,0,337,500_AL_.jpg",
@@ -80,7 +44,7 @@
       "stars": 4,
       "likes": 15,
       "genres": [
-        "Drama"
+        "Dramaasd"
       ],
       "actorsIds": [
         11,

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styles from "./style.module.scss";
 import MoviesFullDescription from "../MoviesFullDescription/component";
 import { movieShape } from "../../helpers/propTypeShapes";
-import Navigation from "../Navigation/component";
 import withTranslate from "../../hoc/withTranslation";
 
 const MovieFullView = props => {
@@ -43,7 +42,6 @@ const MovieFullView = props => {
     <>
       {movieIDX && (
         <>
-          <Navigation />
           <section className={styles.movieFullView}>
             <MoviesFullDescription
               movie={movie}

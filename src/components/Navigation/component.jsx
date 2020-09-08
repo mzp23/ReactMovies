@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./styles.module.scss";
 import { Routes } from "../../constants";
 import Button from "../Button/component";
@@ -13,6 +13,12 @@ const Navigation = ({ handleUserLogOut, words }) => {
     "navigation-logout-btn": logOutTitle,
     "navigation-menu-link-homepage": homepage,
   } = words;
+
+  const location = useLocation();
+
+  if (location.pathname.match(/register|login/)){
+    return null;
+  }
 
   return (
     <nav>
