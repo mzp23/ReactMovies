@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Navigation from "../Navigation/component";
 import styles from "../../containers/App/styles.module.scss";
 import Button from "../Button/component";
 import SearchBar from "../../containers/SearchBar/container";
@@ -18,7 +17,6 @@ const Movies = props => {
     sortMoviesByStars,
     resetFilters,
     handleSearchResult,
-    handleLogOut,
     handleNewMovie,
     words
   } = props;
@@ -33,7 +31,6 @@ const Movies = props => {
   } = words;
   return (
     <>
-      <Navigation />
       <section className={styles.sorting}>
         <h2>{sortingTitle}</h2>
         <div className={styles.buttonContainer}>
