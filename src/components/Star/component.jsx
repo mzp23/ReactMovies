@@ -2,14 +2,17 @@ import React from "react";
 import uuid from "uuid";
 
 import styles from './style.module.scss';
+import { connect } from "react-redux";
+import { handleStars } from '../../containers/App/actions'
 
-const Star = ({ handleStar, movieId, star, isFilled}) => {
+
+const Star = ({ handleStars, movieId, star, isFilled}) => {
   const starToRender = isFilled ? '⭐' : '☆';
 
   return (
     <span
       className={styles.stars}
-      onClick={() => handleStar(movieId, star)}
+      onClick={() => handleStars({movieId, star})}
       key={uuid()}
       role="img"
       aria-label="gold star"
@@ -19,4 +22,9 @@ const Star = ({ handleStar, movieId, star, isFilled}) => {
   );
 };
 
-export default Star;
+const mapDispatchToProps = {
+  handleStars
+}
+
+
+export default connect(null, mapDispatchToProps)(Star);

@@ -12,7 +12,6 @@ const Stars = ({ stars, handleStar, movieId }) => {
         return (
           <Star
             key={uuid()}
-            handleStar={handleStar}
             movieId={movieId}
             star={star}
             isFilled={star <= stars}

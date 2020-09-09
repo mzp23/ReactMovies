@@ -29,6 +29,10 @@ export const toggleSortByLikes = payload => ({
   payload
 });
 
+export const toggleSortByStars = payload => ({
+  type: TOGGLE_SORT_BY_STARS,
+  payload
+});
 export const toggleSortByLStars = payload => ({
   type: TOGGLE_SORT_BY_STARS,
   payload

@@ -19,6 +19,7 @@ import {
   LOAD_MOVIE_BY_ID,
   EDIT_MOVIE_INFO,
 } from "./types";
+import { findMovieIndex } from "../../helpers/helpers";
 
 const initialState = {
   defaultMovies: null,
@@ -92,15 +93,23 @@ export const moviesReducer = (state = initialState, action) => {
     case TOGGLE_SORT_BY_LIKES:
       return {
         ...state,
-        sortedByLikes: payload.sortedByLikes,
-        moviesToRender,
+        moviesToRender: [
+          ...state.moviesToRender.sort(({ likes: likesA }, { likes: likesB }) =>
+            state.sortedByLikes ? likesA - likesB : likesB - likesA
+          ),
+        ],
+        sortedByLikes: !state.sortedByLikes,
       };
 
     case TOGGLE_SORT_BY_STARS:
       return {
         ...state,
-        sortedByStars: payload.sortedByStars,
-        moviesToRender,
+        moviesToRender: [
+          ...state.moviesToRender.sort(({ stars: starA }, { stars: starB }) =>
+            state.sortedByStars ? starA - starB : starB - starA
+          ),
+        ],
+        sortedByStars: !state.sortedByStars,
       };
 
     case SORT_BY_STARS:
@@ -115,18 +124,39 @@ export const moviesReducer = (state = initialState, action) => {
         moviesToRender,
       };
 
-    case HANDLE_STARS:
+    case HANDLE_STARS: {
       return {
         ...state,
-        moviesToRender,
-        defaultMovies,
+        moviesToRender: state.moviesToRender.map((item) =>
+          item.id === payload.movieId ? { ...item, stars: payload.star } : item
+        ),
+        defaultMovies: state.defaultMovies.map((item) =>
+          item.id === payload.movieId ? { ...item, stars: payload.star } : item
+        ),
       };
+    }
 
     case HANDLE_LIKE:
+      const [moviesToRenderIndex, defaultMoviesIndex] = findMovieIndex(
+        payload.movieId,
+        state
+      );
+
       return {
         ...state,
-        moviesToRender,
-        defaultMovies,
+        moviesToRender: [
+          ...state.moviesToRender.slice(0, moviesToRenderIndex),
+          {
+            ...state.moviesToRender[moviesToRenderIndex],
+            likes: payload.likes,
+          },
+          ...state.moviesToRender.slice(moviesToRenderIndex + 1),
+        ],
+        defaultMovies: [
+          ...state.defaultMovies.slice(0, defaultMoviesIndex),
+          { ...state.defaultMovies[defaultMoviesIndex], likes: payload.likes },
+          ...state.defaultMovies.slice(moviesToRenderIndex + 1),
+        ],
       };
 
     case HANDLE_SEARCH:
