@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./styles.module.scss";
 import Likes from "../Likes/component";
 import Span from "../Span/component";
-import PropTypes from "prop-types";
 import { movieShape } from "../../helpers/propTypeShapes";
 import Button from "../Button/component";
 import Stars from "../Stars/component";
@@ -10,8 +9,6 @@ import Stars from "../Stars/component";
 const MoviesFullDescription = props => {
   const {
     movie,
-    handleLike,
-    handleStar,
     handleDelete,
     handleEdit,
     actors,
@@ -40,11 +37,10 @@ const MoviesFullDescription = props => {
         <h3>{title}</h3>
         <Likes
           movieId={id}
-          handleLike={handleLike}
           likes={likes}
           title={likesTitle}
         />
-        <Stars movieId={id} stars={stars} handleStar={handleStar} />
+        <Stars movieId={id} stars={stars} />
         <Button handleClick={handleEdit} title={editBtnTitle} />
         <Button handleClick={handleDelete} title={deleteBtnTitle} />
       </div>
@@ -71,7 +67,4 @@ export default MoviesFullDescription;
 
 MoviesFullDescription.propType = {
   movie: movieShape.isRequired,
-
-  handleLike: PropTypes.func.isRequired,
-  handleStar: PropTypes.func.isRequired
 };

@@ -6,6 +6,10 @@ import SearchBar from "../../containers/SearchBar/container";
 import MoviePreviewContainer from "../../containers/MoviePreview/container";
 import { movieShape } from "../../helpers/propTypeShapes";
 import withTranslate from "../../hoc/withTranslation";
+import { toggleSortByStars, toggleSortByLikes } from '../../containers/App/actions'
+import { connect } from "react-redux";
+import { compose } from "redux";
+
 
 const Movies = props => {
   const {
@@ -13,8 +17,8 @@ const Movies = props => {
     handleLike,
     handleTitle,
     defaultMovies,
-    sortMoviesByLikes,
-    sortMoviesByStars,
+    toggleSortByLikes,
+    toggleSortByStars,
     resetFilters,
     handleSearchResult,
     handleNewMovie,
@@ -34,8 +38,8 @@ const Movies = props => {
       <section className={styles.sorting}>
         <h2>{sortingTitle}</h2>
         <div className={styles.buttonContainer}>
-          <Button title={likesBtnTitle} handleClick={sortMoviesByLikes} />
-          <Button title={ratingTitle} handleClick={sortMoviesByStars} />
+          <Button title={likesBtnTitle} handleClick={toggleSortByLikes} />
+          <Button title={ratingTitle} handleClick={toggleSortByStars} />
           <Button title={resetTitle} handleClick={resetFilters} />
           <Button title={addMovieTitle} handleClick={handleNewMovie} />
         </div>
@@ -61,11 +65,16 @@ const Movies = props => {
   );
 };
 
-export default withTranslate(Movies);
+const mapDispatchToProps = {
+  toggleSortByStars,
+  toggleSortByLikes
+}
+
+const withConnect= connect(null, mapDispatchToProps)
+
+export default compose(withTranslate, withConnect)(Movies);
 
 Movies.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),
-  handleLike: PropTypes.func.isRequired,
-  handleStar: PropTypes.func.isRequired,
   handleTitle: PropTypes.func.isRequired
 };

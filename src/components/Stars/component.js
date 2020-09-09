@@ -4,7 +4,7 @@ import uuid from "uuid";
 import styles from "./style.module.scss";
 import Star from "../Star/component";
 
-const Stars = ({ stars, handleStar, movieId }) => {
+const Stars = ({ stars, movieId }) => {
   return (
     <div className={styles.wrapper}>
       {[...new Array(5)].map((elem, index) => {
@@ -12,7 +12,6 @@ const Stars = ({ stars, handleStar, movieId }) => {
         return (
           <Star
             key={uuid()}
-            handleStar={handleStar}
             movieId={movieId}
             star={star}
             isFilled={star <= stars}
@@ -26,7 +25,6 @@ const Stars = ({ stars, handleStar, movieId }) => {
 export default Stars;
 
 Stars.propTypes = {
-  handleStar: PropTypes.func,
   movieId: PropTypes.number,
   stars: PropTypes.number
 };

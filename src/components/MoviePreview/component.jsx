@@ -27,8 +27,6 @@ MoviePreview.propTypes = {
   likes: PropTypes.number.isRequired,
   stars: PropTypes.number.isRequired,
   poster: PropTypes.string.isRequired,
-  handleStar: PropTypes.func.isRequired,
-  handleLike: PropTypes.func.isRequired,
   movieId: PropTypes.number.isRequired,
   handleTitle: PropTypes.func.isRequired
 };

@@ -4,8 +4,6 @@ import MoviePreview from "../../components/MoviePreview/component";
 import uuid from "uuid";
 
 const MoviePreviewContainer = ({
-  handleStar,
-  handleLike,
   handleTitle,
   moviesToRender,
   likeTitle,
@@ -20,8 +18,6 @@ const MoviePreviewContainer = ({
             likes={el.likes}
             title={el.title}
             poster={el.posterUrl}
-            handleStar={handleStar}
-            handleLike={handleLike}
             handleTitle={handleTitle}
             movieId={el.id}
             likeTitle={likeTitle}
