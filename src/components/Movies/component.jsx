@@ -76,7 +76,5 @@ export default compose(withTranslate, withConnect)(Movies);
 
 Movies.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),
-  handleLike: PropTypes.func.isRequired,
-  handleStar: PropTypes.func.isRequired,
   handleTitle: PropTypes.func.isRequired
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./style.module.scss";
 import MoviesFullDescription from "../MoviesFullDescription/component";
 import { movieShape } from "../../helpers/propTypeShapes";
@@ -9,8 +8,6 @@ const MovieFullView = props => {
   const {
     moviesToRender,
     movieIDX,
-    handleLike,
-    handleStar,
     handleDelete,
     handleEdit,
     actors,
@@ -45,8 +42,6 @@ const MovieFullView = props => {
           <section className={styles.movieFullView}>
             <MoviesFullDescription
               movie={movie}
-              handleLike={handleLike}
-              handleStar={handleStar}
               handleDelete={() => handleDelete(movie.id)}
               handleEdit={() => handleEdit(movie.id)}
               actors={actors}
@@ -64,6 +59,4 @@ export default withTranslate(MovieFullView);
 
 MovieFullView.propTypes = {
   movie: movieShape,
-  handleLike: PropTypes.func,
-  handleStar: PropTypes.func
 };
