@@ -6,23 +6,22 @@ import SearchBar from "../../containers/SearchBar/container";
 import MoviePreviewContainer from "../../containers/MoviePreview/container";
 import { movieShape } from "../../helpers/propTypeShapes";
 import withTranslate from "../../hoc/withTranslation";
-import { toggleSortByStars, toggleSortByLikes } from '../../containers/App/actions'
+import {
+  toggleSortByStars,
+  toggleSortByLikes,
+  resetSorting,
+} from "../../containers/App/actions";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-
-const Movies = props => {
+const Movies = (props) => {
   const {
-    handleStar,
-    handleLike,
     handleTitle,
-    defaultMovies,
     toggleSortByLikes,
     toggleSortByStars,
-    resetFilters,
-    handleSearchResult,
+    resetSorting,
     handleNewMovie,
-    words
+    words,
   } = props;
   const {
     "app-sorting-btn-likes": likesBtnTitle,
@@ -40,21 +39,15 @@ const Movies = props => {
         <div className={styles.buttonContainer}>
           <Button title={likesBtnTitle} handleClick={toggleSortByLikes} />
           <Button title={ratingTitle} handleClick={toggleSortByStars} />
-          <Button title={resetTitle} handleClick={resetFilters} />
+          <Button title={resetTitle} handleClick={resetSorting} />
           <Button title={addMovieTitle} handleClick={handleNewMovie} />
         </div>
-        <SearchBar
-          handleSearchResult={handleSearchResult}
-          movies={defaultMovies}
-          searchTitle={searchTitle}
-        />
+        <SearchBar searchTitle={searchTitle} />
       </section>
       <div className={styles.movies}>
         <>
           <section className={styles.moviePreviewContainer}>
             <MoviePreviewContainer
-              handleStar={handleStar}
-              handleLike={handleLike}
               handleTitle={handleTitle}
               likeTitle={likeTitle}
             />
@@ -67,14 +60,15 @@ const Movies = props => {
 
 const mapDispatchToProps = {
   toggleSortByStars,
-  toggleSortByLikes
-}
+  toggleSortByLikes,
+  resetSorting,
+};
 
-const withConnect= connect(null, mapDispatchToProps)
+const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(withTranslate, withConnect)(Movies);
 
 Movies.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),
-  handleTitle: PropTypes.func.isRequired
+  handleTitle: PropTypes.func.isRequired,
 };
