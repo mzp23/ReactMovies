@@ -105,8 +105,8 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         moviesToRender: [
-          ...state.moviesToRender.sort(({ stars: starA }, { stars: starB }) =>
-            state.sortedByStars ? starA - starB : starB - starA
+          ...state.moviesToRender.sort(({ stars: starsA }, { stars: starsB }) =>
+            state.sortedByStars ? starsA - starsB : starsB - starsA
           ),
         ],
         sortedByStars: !state.sortedByStars,
@@ -121,7 +121,9 @@ export const moviesReducer = (state = initialState, action) => {
     case RESET_SORTING:
       return {
         ...state,
-        moviesToRender,
+        moviesToRender: [...state.moviesToRender.sort((a,b) => a.id - b.id)],
+        sortedByLikes: false,
+        sortedByStars: false
       };
 
     case HANDLE_STARS: {
@@ -162,7 +164,7 @@ export const moviesReducer = (state = initialState, action) => {
     case HANDLE_SEARCH:
       return {
         ...state,
-        moviesToRender,
+        moviesToRender: payload,
       };
 
     case HANDLE_TITLE:

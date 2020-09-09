@@ -6,8 +6,6 @@ import { findMovieIndex } from "../../helpers/helpers";
 import MovieFullView from "../../components/MovieFullView/component";
 import {
   loadMovies,
-  resetSorting,
-  handleSearch,
   handleTitleToProps,
   handleDeleteMovie,
   handleEditMovie,
@@ -34,14 +32,6 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchMovies();
   }
-
-  resetFilters = () => {
-    const { moviesToRender } = this.props;
-    const movies = [...moviesToRender].sort((a, b) => a.id - b.id);
-    this.props.resetSorting({
-      moviesToRender: movies,
-    });
-  };
 
   handleSearchResult = (searchResult) => {
     this.props.handleSearch({ moviesToRender: searchResult });
@@ -108,9 +98,7 @@ class App extends Component {
             render={() => (
               <Movies
                 handleTitle={this.handleTitle}
-                resetFilters={this.resetFilters}
                 handleNewMovie={this.handleNewMovie}
-                handleSearchResult={this.handleSearchResult}
               />
             )}
           />
@@ -160,7 +148,6 @@ const mapStateToProps = ({ moviesReducer, loginReducer }) => ({
 
 const mapDispatchToProps = {
   loadMovies,
-  resetSorting,
   handleTitleToProps,
   handleDeleteMovie,
   handleEditMovie,
@@ -176,7 +163,6 @@ export default compose(withRouter, withConnect)(App);
 App.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),
   moviesToRender: PropTypes.arrayOf(movieShape),
-  resetSorting: PropTypes.func,
   handleSearch: PropTypes.func,
   handleTitleToProps: PropTypes.func,
 };

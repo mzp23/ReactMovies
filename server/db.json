@@ -20,9 +20,9 @@
     },
     {
       "id": 4,
-      "title": "The Dark Knight",
+      "title": "The Dark Knight1",
       "posterUrl": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SY500_CR0,0,337,500_AL_.jpg",
-      "stars": 2,
+      "stars": 4,
       "likes": 11,
       "genres": [
         "Crime",
