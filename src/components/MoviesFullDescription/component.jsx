@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import uuid from "uuid";
 import styles from "./styles.module.scss";
 import Likes from "../Likes/component";
 import Span from "../Span/component";
 import { movieShape } from "../../helpers/propTypeShapes";
 import Button from "../Button/component";
 import Stars from "../Stars/component";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 
-const MoviesFullDescription = props => {
+import { fetchDeleteMovie, fetchActors } from "../../containers/App/actions.js";
+
+const MoviesFullDescription = (props) => {
   const {
     movie,
-    handleDelete,
-    handleEdit,
     actors,
-    handleActor,
     directorTitle,
     actorsTitle,
     genresTitle,
     descriptionsTitle,
     likesTitle,
     editBtnTitle,
-    deleteBtnTitle
+    deleteBtnTitle,
+    fetchDeleteMovie,
+    fetchActors,
   } = props;
   const {
     likes,
@@ -29,17 +33,34 @@ const MoviesFullDescription = props => {
     posterUrl,
     director,
     genres,
-    description
+    description,
+    actorsIds,
   } = movie;
+
+  useEffect(() => {
+    fetchActors(actorsIds);
+  }, [actorsIds, fetchActors]);
+
+  const history = useHistory();
+
+  const handleActor = (id) => {
+    history.push(`/actor/${id}`);
+  };
+
+  const handleEdit = () => {
+    history.push(`/edit-movie/${id}`);
+  };
+
+  const handleDelete = async () => {
+    await fetchDeleteMovie(id);
+    history.push("/movies");
+  };
+
   return (
     <>
       <div className={styles.subInfo}>
         <h3>{title}</h3>
-        <Likes
-          movieId={id}
-          likes={likes}
-          title={likesTitle}
-        />
+        <Likes movieId={id} likes={likes} title={likesTitle} />
         <Stars movieId={id} stars={stars} />
         <Button handleClick={handleEdit} title={editBtnTitle} />
         <Button handleClick={handleDelete} title={deleteBtnTitle} />
@@ -50,7 +71,15 @@ const MoviesFullDescription = props => {
           {directorTitle}: {director}
         </p>
         <p>
-          {actorsTitle}: <Span array={actors} handleActor={handleActor} />{" "}
+          {actorsTitle}:{" "}
+          {actors &&
+            actors.map((actor, index, arr) => {
+              return (
+                <span key={uuid()} onClick={() => handleActor(actor.id)}>
+                  {index < arr.length - 1 ? `${actor.name}, ` : actor.name}
+                </span>
+              );
+            })}
         </p>
         <p>
           {genresTitle}: <Span array={genres} />{" "}
@@ -63,7 +92,19 @@ const MoviesFullDescription = props => {
   );
 };
 
-export default MoviesFullDescription;
+const mapStateToProps = ({ moviesReducer }) => ({
+  actors: moviesReducer.actors,
+});
+
+const mapDispatchToProps = {
+  fetchDeleteMovie,
+  fetchActors,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MoviesFullDescription);
 
 MoviesFullDescription.propType = {
   movie: movieShape.isRequired,

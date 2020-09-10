@@ -13,6 +13,7 @@ import {
 } from "../../containers/App/actions";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { useHistory } from "react-router-dom";
 
 const Movies = (props) => {
   const {
@@ -20,7 +21,6 @@ const Movies = (props) => {
     toggleSortByLikes,
     toggleSortByStars,
     resetSorting,
-    handleNewMovie,
     words,
   } = props;
   const {
@@ -32,6 +32,13 @@ const Movies = (props) => {
     "app-search-bar-placeholder": searchTitle,
     "movie-likes": likeTitle,
   } = words;
+
+  const history = useHistory()
+
+  const handleNewMovie = () => {
+    history.push("/add-movie");
+  };
+
   return (
     <>
       <section className={styles.sorting}>

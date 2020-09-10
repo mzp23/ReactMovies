@@ -24,7 +24,7 @@ const Navigation = ({ handleUserLogOut, words }) => {
     <nav>
       <ul className={styles.navigation}>
         <li className={styles.navigationItem}>
-          <Link to={Routes.HOMEPAGE}>{homepage}</Link>
+          <Link to={Routes.MOVIES}>{homepage}</Link>
         </li>
         <li className={styles.navigationItem}>
           <Button handleClick={handleUserLogOut} title={logOutTitle} />

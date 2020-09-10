@@ -49,6 +49,7 @@ export const moviesReducer = (state = initialState, action) => {
         loading: false,
         defaultMovies: payload,
         moviesToRender: payload,
+        isLoaded: true
       };
 
     case LOAD_MOVIE_BY_ID:
