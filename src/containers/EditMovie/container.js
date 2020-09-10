@@ -20,6 +20,7 @@ const EditMovie = ({
   const history = useHistory();
 
   const movieID = moviesToRender[movieToShowDescription].id;
+
   const goBack = (e) => {
     e.preventDefault();
     history.goBack();

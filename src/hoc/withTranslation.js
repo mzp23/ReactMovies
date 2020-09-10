@@ -12,7 +12,7 @@ const withTranslate = (WrappedComponent) => {
     ...props
   }) => {
     const [language, setLanguage] = useState("");
-
+  
     useEffect(() => {
       const languageFromLS = localStorage.getItem("language");
       

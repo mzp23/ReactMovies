@@ -3,16 +3,14 @@ import styles from "./style.module.scss";
 import MoviesFullDescription from "../MoviesFullDescription/component";
 import { movieShape } from "../../helpers/propTypeShapes";
 import withTranslate from "../../hoc/withTranslation";
+import { connect } from "react-redux";
+import { compose } from "redux";
 
-const MovieFullView = props => {
+const MovieFullView = (props) => {
   const {
     moviesToRender,
-    movieIDX,
-    handleDelete,
-    handleEdit,
-    actors,
-    handleActor,
-    words
+    movieToShowDescription,
+    words,
   } = props;
 
   const {
@@ -22,7 +20,7 @@ const MovieFullView = props => {
     "movie-description": descriptionsTitle,
     "movie-likes": likesTitle,
     "movie-btn-edit-title": editBtnTitle,
-    "movie-btn-delete-title": deleteBtnTitle
+    "movie-btn-delete-title": deleteBtnTitle,
   } = words;
   const wordsToMovie = {
     directorTitle,
@@ -31,23 +29,17 @@ const MovieFullView = props => {
     descriptionsTitle,
     likesTitle,
     editBtnTitle,
-    deleteBtnTitle
+    deleteBtnTitle,
   };
 
-  const movie = moviesToRender[movieIDX];
+  const movie = moviesToRender[movieToShowDescription];
+
   return (
     <>
-      {movieIDX && (
+      {movieToShowDescription && (
         <>
           <section className={styles.movieFullView}>
-            <MoviesFullDescription
-              movie={movie}
-              handleDelete={() => handleDelete(movie.id)}
-              handleEdit={() => handleEdit(movie.id)}
-              actors={actors}
-              handleActor={handleActor}
-              {...wordsToMovie}
-            />
+            <MoviesFullDescription movie={movie} {...wordsToMovie} />
           </section>
         </>
       )}
@@ -55,7 +47,14 @@ const MovieFullView = props => {
   );
 };
 
-export default withTranslate(MovieFullView);
+const mapStateToProps = ({ moviesReducer }) => ({
+  moviesToRender: moviesReducer.moviesToRender,
+  movieToShowDescription: moviesReducer.movieToShowDescription,
+});
+
+const witchConnect = connect(mapStateToProps);
+
+export default compose(withTranslate, witchConnect)(MovieFullView);
 
 MovieFullView.propTypes = {
   movie: movieShape,
