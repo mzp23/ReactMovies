@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import MoviePreview from "../../components/MoviePreview/component";
-import uuid from "uuid";
 
 import { fetchMovies, handleTitleToProps } from "../App/actions";
 import { useHistory } from "react-router-dom";
@@ -21,27 +20,29 @@ const MoviePreviewContainer = ({
       }
     }, [fetchMovies, isLoaded]);
 
-  const handleTitle = async (movieId) => {
-    const film = moviesToRender.findIndex((item) => item.id === movieId);
-    handleTitleToProps({ movieToShowDescription: film });
-    history.push(`/movies/${movieId}`);
+  const handleTitle = (movieId) => {
+    const film = moviesToRender.find((item) => item.id === movieId);
+    handleTitleToProps({ movieToShowDescription: film.id });
+    history.push(`/movies/${film.id}`);
   };
 
   return (
     <>
       {moviesToRender &&
-        moviesToRender.map((el) => (
-          <MoviePreview
-            key={uuid()}
-            stars={el.stars}
-            likes={el.likes}
-            title={el.title}
-            poster={el.posterUrl}
-            handleTitle={handleTitle}
-            movieId={el.id}
-            likeTitle={likeTitle}
-          />
-        ))}
+        moviesToRender.map((el) => {
+          return (
+            <MoviePreview
+              key={el.id}
+              stars={el.stars}
+              likes={el.likes}
+              title={el.title}
+              poster={el.posterUrl}
+              handleTitle={handleTitle}
+              movieId={el.id}
+              likeTitle={likeTitle}
+            />
+          )
+        })}
     </>
   );
 };

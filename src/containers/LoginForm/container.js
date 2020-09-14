@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Routes } from "../../constants";
@@ -13,6 +13,10 @@ import Button from "../../components/Button/component";
 const LoginForm = ({ handleButton, words, page, values }) => {
     const pageToRender = page === "login" ? "login" : "register";
     const to = page === "login" ? "REGISTER" : "LOGIN";
+
+    const memoizedHandleButton = useCallback((e) => {
+      handleButton(e, values)
+    }, [handleButton, values])
     const textToRender = (
       <p>
         {words[`${pageToRender}-text`]}{" "}
@@ -25,7 +29,7 @@ const LoginForm = ({ handleButton, words, page, values }) => {
     );
 
     return (
-      <form className={styles.form} onSubmit={handleButton}>
+      <form className={styles.form} onSubmit={memoizedHandleButton}>
         <h2>{words[`${pageToRender}-h2-title`]}</h2>
         <Field
           id={"login"}
@@ -44,7 +48,6 @@ const LoginForm = ({ handleButton, words, page, values }) => {
           placeholder={words["login-form-input-password-placeholder"]}
         />
         <Button
-          handleClick={e => handleButton(e, values)}
           title={words[`${pageToRender}-btn-title`]}
           type="submit"
         />

@@ -17,7 +17,6 @@ import { useHistory } from "react-router-dom";
 
 const Movies = (props) => {
   const {
-    handleTitle,
     toggleSortByLikes,
     toggleSortByStars,
     resetSorting,
@@ -55,7 +54,6 @@ const Movies = (props) => {
         <>
           <section className={styles.moviePreviewContainer}>
             <MoviePreviewContainer
-              handleTitle={handleTitle}
               likeTitle={likeTitle}
             />
           </section>
@@ -77,5 +75,4 @@ export default compose(withTranslate, withConnect)(Movies);
 
 Movies.propTypes = {
   defaultMovies: PropTypes.arrayOf(movieShape),
-  handleTitle: PropTypes.func.isRequired,
 };

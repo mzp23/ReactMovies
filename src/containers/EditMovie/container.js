@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
@@ -12,7 +12,6 @@ import { connect } from "react-redux";
 const EditMovie = ({
   values,
   handleSubmit,
-  handleLogOut,
   words,
   moviesToRender,
   movieToShowDescription,
@@ -26,6 +25,12 @@ const EditMovie = ({
     history.goBack();
   };
 
+  const memoizedGoBack = useCallback(goBack, [])
+
+  const memoizedHandleSubmit = useCallback((event) => {
+    handleSubmit(movieID, event, values)
+  }, [movieID, handleSubmit, values])
+
   const {
     "form-edit-or-add-movie-input-title": editTitle,
     "form-edit-or-add-movie-input-img": imgTitle,
@@ -38,7 +43,7 @@ const EditMovie = ({
 
   return (
     <>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={memoizedHandleSubmit}>
         <Field
           name="title"
           id={"editMovieTitle"}
@@ -77,11 +82,10 @@ const EditMovie = ({
 
         <div>
           <Button
-            handleClick={(event) => handleSubmit(movieID, event, values)}
             title={submitTitle}
             type="submit"
           />
-          <Button handleClick={goBack} title={goBackTitle} />
+          <Button handleClick={memoizedGoBack} title={goBackTitle} />
         </div>
       </form>
     </>

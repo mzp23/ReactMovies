@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styles from "./styles.module.scss";
 import Button from "../../components/Button/component";
 import Input from "../../components/Input/component";
@@ -8,12 +8,7 @@ import { Field, getFormValues, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-const AddMovie = ({
-  handleSubmit,
-  handleLogOut,
-  words,
-  values,
-}) => {
+const AddMovie = ({ handleSubmit, words, values }) => {
   const history = useHistory();
 
   const {
@@ -31,9 +26,17 @@ const AddMovie = ({
     history.goBack();
   };
 
+  const memoizedGoBack = useCallback(goBack, []);
+  const memoizedHandleSubmit = useCallback(
+    (e) => {
+      handleSubmit(e, values);
+    },
+    [handleSubmit, values]
+  );
+
   return (
     <>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={memoizedHandleSubmit}>
         <Field
           name="title"
           component={Input}
@@ -71,12 +74,8 @@ const AddMovie = ({
         />
 
         <div>
-          <Button
-            handleClick={(event) => handleSubmit(event, values)}
-            title={submitTitle}
-            type="submit"
-          />
-          <Button handleClick={goBack} title={goBackTitle} />
+          <Button title={submitTitle} type="submit" />
+          <Button handleClick={memoizedGoBack} title={goBackTitle} />
         </div>
       </form>
     </>

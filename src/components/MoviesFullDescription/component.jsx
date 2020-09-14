@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import uuid from "uuid";
 import styles from "./styles.module.scss";
 import Likes from "../Likes/component";
@@ -56,14 +56,17 @@ const MoviesFullDescription = (props) => {
     history.push("/movies");
   };
 
+  const memoizedHandleEdit = useCallback(handleEdit, []);
+  const memoizedHandleDelete = useCallback(handleDelete, []);
+
   return (
     <>
       <div className={styles.subInfo}>
         <h3>{title}</h3>
         <Likes movieId={id} likes={likes} title={likesTitle} />
         <Stars movieId={id} stars={stars} />
-        <Button handleClick={handleEdit} title={editBtnTitle} />
-        <Button handleClick={handleDelete} title={deleteBtnTitle} />
+        <Button handleClick={memoizedHandleEdit} title={editBtnTitle} />
+        <Button handleClick={memoizedHandleDelete} title={deleteBtnTitle} />
       </div>
       <div className={styles.fullInfo}>
         <img src={posterUrl} alt={title} className={styles.poster} />

@@ -32,7 +32,7 @@ const MovieFullView = (props) => {
     deleteBtnTitle,
   };
 
-  const movie = moviesToRender[movieToShowDescription];
+  const movie = moviesToRender.find(movie => movie.id === movieToShowDescription);
 
   return (
     <>
