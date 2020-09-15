@@ -1,10 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
 import styles from "../../containers/App/styles.module.scss";
 import Button from "../Button/component";
 import SearchBar from "../../containers/SearchBar/container";
 import MoviePreviewContainer from "../../containers/MoviePreview/container";
-import { movieShape } from "../../helpers/propTypeShapes";
 import withTranslate from "../../hoc/withTranslation";
 import {
   toggleSortByStars,
@@ -72,7 +70,3 @@ const mapDispatchToProps = {
 const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(withTranslate, withConnect)(Movies);
-
-Movies.propTypes = {
-  defaultMovies: PropTypes.arrayOf(movieShape),
-};

@@ -38,7 +38,7 @@
     },
     {
       "id": 3,
-      "title": "The Godfather: Part 3",
+      "title": "The Godfather: Part II",
       "posterUrl": "https://images-na.ssl-images-amazon.com/images/I/71mgX2K40lL._AC_SL1500_.jpg",
       "stars": 2,
       "likes": 10,
@@ -540,11 +540,6 @@
       "name": "me@ma.com",
       "password": "BE8EdLmf42igUhJ",
       "id": 6
-    },
-    {
-      "name": "me@ma.com234234242",
-      "password": "BE8EdLmf42igUhJ",
-      "id": 7
     }
   ]
 }

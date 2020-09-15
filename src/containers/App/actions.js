@@ -161,15 +161,13 @@ export const fetchActors = actorsIds => async (dispatch, _, api) => {
 export const fetchEditMovie = (movieId, updatedMovie) => async (dispatch, getState, api) => {
   try {
         const {moviesReducer} = getState();
-        const {moviesToRender, defaultMovies} = moviesReducer;
+        const {moviesToRender} = moviesReducer;
         const movieToUpdate = moviesToRender.find(el => el.id === movieId);
         const { status } = await api(`movies/${movieId}`, "put", {...movieToUpdate, ...updatedMovie});
-        const [moviesToRenderIndex,defaultMoviesIndex] = findMovieIndex(movieId, moviesReducer);
+        const moviesToRenderIndex = findMovieIndex(movieId, moviesReducer);
     if (status === 200) {
             dispatch(handleEditMovie({moviesToRender: updateElement(moviesToRender, moviesToRenderIndex,
-                  {...movieToUpdate, ...updatedMovie}),
-                  defaultMovies: updateElement(defaultMovies,defaultMoviesIndex,
-                      {...movieToUpdate, ...updatedMovie})}));
+                  {...movieToUpdate, ...updatedMovie})}));
         }
     } catch (error) {
         console.log(error);

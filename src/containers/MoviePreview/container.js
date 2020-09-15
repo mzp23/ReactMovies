@@ -4,21 +4,21 @@ import MoviePreview from "../../components/MoviePreview/component";
 
 import { fetchMovies, handleTitleToProps } from "../App/actions";
 import { useHistory } from "react-router-dom";
+import { getIsLoaded, getMovies } from "../App/selectors";
 
 const MoviePreviewContainer = ({
   moviesToRender,
   likeTitle,
   fetchMovies,
   handleTitleToProps,
-  isLoaded
+  isLoaded,
 }) => {
   const history = useHistory();
-
-    useEffect(() => {
-      if (!isLoaded) {
-        fetchMovies();
-      }
-    }, [fetchMovies, isLoaded]);
+  useEffect(() => {
+    if (!isLoaded) {
+      fetchMovies();
+    }
+  }, [fetchMovies, isLoaded]);
 
   const handleTitle = (movieId) => {
     const film = moviesToRender.find((item) => item.id === movieId);
@@ -41,17 +41,14 @@ const MoviePreviewContainer = ({
               movieId={el.id}
               likeTitle={likeTitle}
             />
-          )
+          );
         })}
     </>
   );
 };
-const mapStateToProps = ({ moviesReducer }) => ({
-  moviesToRender: moviesReducer.moviesToRender,
-  isLoaded: moviesReducer.isLoaded,
-  sortedByLikes: moviesReducer.sortedByLikes,
-  sortedByStars: moviesReducer.sortedByStars,
-  resetSort: moviesReducer.resetSort,
+const mapStateToProps = (state) => ({
+  moviesToRender: getMovies(state),
+  isLoaded: getIsLoaded(state),
 });
 
 const mapDispatchToProps = {

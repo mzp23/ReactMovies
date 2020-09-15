@@ -1,12 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
-const Actor = ({ img, name, biography, words }) => {
-
-  const {
-    "actors-name": nameTitle,
-    "actors-biography": biographyTitle
-  } = words;
+const Actor = ({ img, name, biography, words, nameTitle, biographyTitle }) => {
   return (
     <>
       <div className={styles.wrapper}>
@@ -27,5 +22,5 @@ export default Actor;
 Actor.propTypes = {
   biography: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };

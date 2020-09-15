@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { useHistory } from "react-router";
-import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 import Button from "../../components/Button/component";
 import Input from "../../components/Input/component";
@@ -8,17 +7,17 @@ import withTranslate from "../../hoc/withTranslation";
 import { reduxForm, Field, getFormValues } from "redux-form";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { getMovieToRender } from "../App/selectors";
 
 const EditMovie = ({
   values,
   handleSubmit,
   words,
-  moviesToRender,
-  movieToShowDescription,
+  movieToRender
 }) => {
   const history = useHistory();
 
-  const movieID = moviesToRender[movieToShowDescription].id;
+  const {id: movieID} = movieToRender;
 
   const goBack = (e) => {
     e.preventDefault();
@@ -93,7 +92,7 @@ const EditMovie = ({
 };
 
 const mapStateToProps = (state) => ({
-  initialValues: state.moviesReducer.editMovieInfo,
+  movieToRender: getMovieToRender(state),
   values: getFormValues("edit-movie-form")(state),
 });
 
@@ -104,10 +103,3 @@ export default compose(
   withTranslate,
   withConnect
 )(EditMovie);
-
-EditMovie.propTypes = {
-  description: PropTypes.string.isRequired,
-  director: PropTypes.string.isRequired,
-  posterUrl: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};

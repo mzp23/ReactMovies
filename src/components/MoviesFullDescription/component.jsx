@@ -10,21 +10,17 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { fetchDeleteMovie, fetchActors } from "../../containers/App/actions.js";
+import { getActors, getMovieToRender } from "../../containers/App/selectors";
+import { compose } from "redux";
+import withTranslation from "../../hoc/withTranslation";
 
-const MoviesFullDescription = (props) => {
-  const {
-    movie,
-    actors,
-    directorTitle,
-    actorsTitle,
-    genresTitle,
-    descriptionsTitle,
-    likesTitle,
-    editBtnTitle,
-    deleteBtnTitle,
-    fetchDeleteMovie,
-    fetchActors,
-  } = props;
+const MoviesFullDescription = ({
+  movie,
+  actors,
+  words,
+  fetchDeleteMovie,
+  fetchActors,
+}) => {
   const {
     likes,
     id,
@@ -36,6 +32,16 @@ const MoviesFullDescription = (props) => {
     description,
     actorsIds,
   } = movie;
+
+  const {
+    "movie-director": directorTitle,
+    "movie-actors": actorsTitle,
+    "movie-genres": genresTitle,
+    "movie-description": descriptionsTitle,
+    "movie-likes": likesTitle,
+    "movie-btn-edit-title": editBtnTitle,
+    "movie-btn-delete-title": deleteBtnTitle,
+  } = words;
 
   useEffect(() => {
     fetchActors(actorsIds);
@@ -60,7 +66,7 @@ const MoviesFullDescription = (props) => {
   const memoizedHandleDelete = useCallback(handleDelete, []);
 
   return (
-    <>
+    <section className={styles.movieFullView}>
       <div className={styles.subInfo}>
         <h3>{title}</h3>
         <Likes movieId={id} likes={likes} title={likesTitle} />
@@ -91,12 +97,13 @@ const MoviesFullDescription = (props) => {
           {descriptionsTitle}: {description}
         </p>
       </div>
-    </>
+    </section>
   );
 };
 
-const mapStateToProps = ({ moviesReducer }) => ({
-  actors: moviesReducer.actors,
+const mapStateToProps = (state) => ({
+  actors: getActors(state),
+  movie: getMovieToRender(state),
 });
 
 const mapDispatchToProps = {
@@ -104,10 +111,9 @@ const mapDispatchToProps = {
   fetchActors,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MoviesFullDescription);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withTranslation, withConnect)(MoviesFullDescription);
 
 MoviesFullDescription.propType = {
   movie: movieShape.isRequired,

@@ -9,7 +9,7 @@ import EditMovieContainer from "../containers/EditMovieContainer/container";
 import ActorContainer from "../containers/ActorContainer/container";
 import AddMovieContainer from "../containers/AddNewMovieContainer/container";
 import Movies from "../components/Movies/component";
-import MovieFullView from "../components/MovieFullView/component";
+import MoviesFullDescription from "../components/MoviesFullDescription/component";
 
 import { Routes } from "../constants";
 
@@ -20,7 +20,7 @@ const AppRoutes = () => (
     <ProtectedRoute path={Routes.EDIT_MOVIE} component={EditMovieContainer} />
     <ProtectedRoute exact path={Routes.HOMEPAGE} component={Movies} />
     <ProtectedRoute exact path={Routes.MOVIES} component={Movies} />
-    <ProtectedRoute exact path={Routes.MOVIE} component={MovieFullView} />
+    <ProtectedRoute exact path={Routes.MOVIE} component={MoviesFullDescription} />
     <ProtectedRoute exact path={Routes.ACTOR} component={ActorContainer} />
     <ProtectedRoute path={Routes.ADD_MOVIE} component={AddMovieContainer} />
     <Route path={"**"} component={PageNotFound} />

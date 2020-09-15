@@ -4,8 +4,10 @@ import { withRouter } from "react-router-dom";
 import withTranslate from "../../hoc/withTranslation";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { getActors } from "../App/selectors";
 
-const ActorContainer = ({ location, actors, handleLogOut, words }) => {
+const ActorContainer = ({ location, actors, words }) => {
+  console.log(location)
   const actorId = +location.pathname.replace("/actor/", "");
   const actor = actors.filter((el) => el.id === actorId)[0];
 
@@ -15,12 +17,14 @@ const ActorContainer = ({ location, actors, handleLogOut, words }) => {
       biography={actor.biography}
       img={actor.imgUrl}
       name={actor.name}
+      biographyTitle={words["actors-biography"]}
+      nameTitle={words["actors-name"]}
     />
   );
 };
 
-const mapStateToProps = ({ moviesReducer}) => ({
-  actors: moviesReducer.actors
+const mapStateToProps = (state) => ({
+  actors: getActors(state)
 })
 
 const withConnect = connect(mapStateToProps)
