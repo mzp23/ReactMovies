@@ -17,7 +17,7 @@ const Register = ({ fetchRegister, words }) => {
 
   return (
     <LoginForm
-      handleButton={(e, values) => registerUser(e, values)}
+      handleButton={registerUser}
       page={"register"}
       words={words}
       history={history}

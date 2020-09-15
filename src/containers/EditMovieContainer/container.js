@@ -3,14 +3,13 @@ import { useHistory } from "react-router";
 import EditMovie from "../EditMovie/container";
 import { fetchEditMovie } from "../App/actions";
 import { connect } from "react-redux";
+import { getMovieToRender } from "../App/selectors";
 
 const EditMovieContainer = ({
-  moviesToRender,
-  movieToShowDescription,
   fetchEditMovie,
+  movieToRender,
 }) => {
   const history = useHistory();
-  const movie = moviesToRender[movieToShowDescription];
 
   const handleSubmit = (movieId, event, values) => {
     event.preventDefault();
@@ -26,31 +25,23 @@ const EditMovieContainer = ({
     history.push(`/movies/${movieId}`);
   };
 
-  const { title, posterUrl, director, genres, description } = movie;
+  const { title, posterUrl, director, genres, description } = movieToRender;
   return (
     <EditMovie
-      moviesToRender={moviesToRender}
-      movieToShowDescription={movieToShowDescription}
-      description={description}
-      director={director}
-      genres={genres}
-      posterUrl={posterUrl}
-      title={title}
       handleSubmit={handleSubmit}
       initialValues={{
-        description: movie.description,
-        title: movie.title,
-        genres: movie.genres,
-        director: movie.director,
-        posterUrl: movie.posterUrl,
+        description,
+        title,
+        genres,
+        director,
+        posterUrl,
       }}
     />
   );
 };
 
-const mapStateToProps = ({ moviesReducer }) => ({
-  moviesToRender: moviesReducer.moviesToRender,
-  movieToShowDescription: moviesReducer.movieToShowDescription,
+const mapStateToProps = (state) => ({
+  movieToRender: getMovieToRender(state),
 });
 
 const mapDispatchToProps = {

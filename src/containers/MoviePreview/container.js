@@ -1,56 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import MoviePreview from "../../components/MoviePreview/component";
-import uuid from "uuid";
 
 import { fetchMovies, handleTitleToProps } from "../App/actions";
 import { useHistory } from "react-router-dom";
+import { getIsLoaded, getMovies } from "../App/selectors";
 
 const MoviePreviewContainer = ({
   moviesToRender,
   likeTitle,
   fetchMovies,
   handleTitleToProps,
-  isLoaded
+  isLoaded,
 }) => {
   const history = useHistory();
+  useEffect(() => {
+    if (!isLoaded) {
+      fetchMovies();
+    }
+  }, [fetchMovies, isLoaded]);
 
-    useEffect(() => {
-      if (!isLoaded) {
-        fetchMovies();
-      }
-    }, [fetchMovies, isLoaded]);
-
-  const handleTitle = async (movieId) => {
-    const film = moviesToRender.findIndex((item) => item.id === movieId);
-    handleTitleToProps({ movieToShowDescription: film });
-    history.push(`/movies/${movieId}`);
+  const handleTitle = (movieId) => {
+    const film = moviesToRender.find((item) => item.id === movieId);
+    handleTitleToProps({ movieToShowDescription: film.id });
+    history.push(`/movies/${film.id}`);
   };
 
   return (
     <>
       {moviesToRender &&
-        moviesToRender.map((el) => (
-          <MoviePreview
-            key={uuid()}
-            stars={el.stars}
-            likes={el.likes}
-            title={el.title}
-            poster={el.posterUrl}
-            handleTitle={handleTitle}
-            movieId={el.id}
-            likeTitle={likeTitle}
-          />
-        ))}
+        moviesToRender.map((el) => {
+          return (
+            <MoviePreview
+              key={el.id}
+              stars={el.stars}
+              likes={el.likes}
+              title={el.title}
+              poster={el.posterUrl}
+              handleTitle={handleTitle}
+              movieId={el.id}
+              likeTitle={likeTitle}
+            />
+          );
+        })}
     </>
   );
 };
-const mapStateToProps = ({ moviesReducer }) => ({
-  moviesToRender: moviesReducer.moviesToRender,
-  isLoaded: moviesReducer.isLoaded,
-  sortedByLikes: moviesReducer.sortedByLikes,
-  sortedByStars: moviesReducer.sortedByStars,
-  resetSort: moviesReducer.resetSort,
+const mapStateToProps = (state) => ({
+  moviesToRender: getMovies(state),
+  isLoaded: getIsLoaded(state),
 });
 
 const mapDispatchToProps = {

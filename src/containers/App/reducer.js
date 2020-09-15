@@ -4,6 +4,7 @@ import {
   HANDLE_STARS,
   RESET_SORTING,
   SORT_BY_STARS,
+  SORT_BY_LIKES,
   TOGGLE_SORT_BY_LIKES,
   TOGGLE_SORT_BY_STARS,
   HANDLE_TITLE,
@@ -22,21 +23,21 @@ import {
 import { findMovieIndex } from "../../helpers/helpers";
 
 const initialState = {
-  defaultMovies: null,
-  moviesToRender: null,
+  moviesToRender: [],
   actors: null,
   movieToShowDescription: null,
   movieToRender: null,
-  sortedByLikes: false,
-  sortedByStars: false,
+  sortedBy: "",
+  sortedFromHighestLikes: false,
+  sortedFromHighestStars: false,
   resetSort: false,
   isLoaded: false,
   editMovieInfo: {},
+  searchBy: ""
 };
 
 export const moviesReducer = (state = initialState, action) => {
   const { type, payload } = action;
-  const defaultMovies = payload?.defaultMovies;
   const moviesToRender = payload?.moviesToRender;
 
   switch (type) {
@@ -47,9 +48,8 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        defaultMovies: payload,
         moviesToRender: payload,
-        isLoaded: true
+        isLoaded: true,
       };
 
     case LOAD_MOVIE_BY_ID:
@@ -94,37 +94,23 @@ export const moviesReducer = (state = initialState, action) => {
     case TOGGLE_SORT_BY_LIKES:
       return {
         ...state,
-        moviesToRender: [
-          ...state.moviesToRender.sort(({ likes: likesA }, { likes: likesB }) =>
-            state.sortedByLikes ? likesA - likesB : likesB - likesA
-          ),
-        ],
-        sortedByLikes: !state.sortedByLikes,
+        sortedFromHighestLikes: !state.sortedFromHighestLikes,
+        sortedBy: SORT_BY_LIKES,
       };
 
     case TOGGLE_SORT_BY_STARS:
       return {
         ...state,
-        moviesToRender: [
-          ...state.moviesToRender.sort(({ stars: starsA }, { stars: starsB }) =>
-            state.sortedByStars ? starsA - starsB : starsB - starsA
-          ),
-        ],
-        sortedByStars: !state.sortedByStars,
-      };
-
-    case SORT_BY_STARS:
-      return {
-        ...state,
-        moviesToRender: payload,
+        sortedFromHighestStars: !state.sortedFromHighestStars,
+        sortedBy: SORT_BY_STARS,
       };
 
     case RESET_SORTING:
       return {
         ...state,
-        moviesToRender: [...state.moviesToRender.sort((a,b) => a.id - b.id)],
-        sortedByLikes: false,
-        sortedByStars: false
+        sortedFromHighestLikes: false,
+        sortedFromHighestStars: false,
+        sortedBy: RESET_SORTING,
       };
 
     case HANDLE_STARS: {
@@ -133,14 +119,11 @@ export const moviesReducer = (state = initialState, action) => {
         moviesToRender: state.moviesToRender.map((item) =>
           item.id === payload.movieId ? { ...item, stars: payload.star } : item
         ),
-        defaultMovies: state.defaultMovies.map((item) =>
-          item.id === payload.movieId ? { ...item, stars: payload.star } : item
-        ),
       };
     }
 
     case HANDLE_LIKE:
-      const [moviesToRenderIndex, defaultMoviesIndex] = findMovieIndex(
+      const moviesToRenderIndex = findMovieIndex(
         payload.movieId,
         state
       );
@@ -155,17 +138,12 @@ export const moviesReducer = (state = initialState, action) => {
           },
           ...state.moviesToRender.slice(moviesToRenderIndex + 1),
         ],
-        defaultMovies: [
-          ...state.defaultMovies.slice(0, defaultMoviesIndex),
-          { ...state.defaultMovies[defaultMoviesIndex], likes: payload.likes },
-          ...state.defaultMovies.slice(moviesToRenderIndex + 1),
-        ],
       };
 
     case HANDLE_SEARCH:
       return {
         ...state,
-        moviesToRender: payload,
+        searchBy: payload,
       };
 
     case HANDLE_TITLE:
@@ -178,7 +156,6 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         moviesToRender,
-        defaultMovies,
       };
     }
 
@@ -186,7 +163,6 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         moviesToRender,
-        defaultMovies,
       };
     }
 
@@ -201,7 +177,6 @@ export const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         moviesToRender,
-        defaultMovies,
       };
     }
   }

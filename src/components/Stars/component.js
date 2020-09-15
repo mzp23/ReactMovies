@@ -4,10 +4,9 @@ import uuid from "uuid";
 import styles from "./style.module.scss";
 import Star from "../Star/component";
 
-const Stars = ({ stars, movieId }) => {
-  return (
+const Stars = React.memo(({ stars, movieId }) => (
     <div className={styles.wrapper}>
-      {[...new Array(5)].map((elem, index) => {
+      {[...new Array(5)].map((_, index) => {
         const star = index + 1;
         return (
           <Star
@@ -19,8 +18,8 @@ const Stars = ({ stars, movieId }) => {
         );
       })}
     </div>
-  );
-};
+  )
+);
 
 export default Stars;
 

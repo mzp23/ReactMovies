@@ -1,5 +1,4 @@
 import React from "react";
-import uuid from "uuid";
 
 import styles from './style.module.scss';
 import { connect } from "react-redux";
@@ -13,7 +12,6 @@ const Star = ({ handleStars, movieId, star, isFilled}) => {
     <span
       className={styles.stars}
       onClick={() => handleStars({movieId, star})}
-      key={uuid()}
       role="img"
       aria-label="gold star"
     >
